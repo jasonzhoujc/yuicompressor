@@ -539,6 +539,24 @@ public class JavaScriptCompressor {
     public void compress(Writer out, int linebreak, boolean munge, boolean verbose,
             boolean preserveAllSemiColons, boolean disableOptimizations)
             throws IOException {
+        String s = this.getCompressedJavasCript(linebreak, munge, verbose, preserveAllSemiColons, disableOptimizations);
+        out.write(s);
+    }
+    
+    /**
+     * 得到被压缩的javascript,从原compress方法中提取出方法，以便HtmlCompressor类用到
+     * @author jason.zhou
+     * @param linebreak
+     * @param munge
+     * @param verbose
+     * @param preserveAllSemiColons
+     * @param disableOptimizations
+     * @return
+     * @throws IOException
+     */
+    public String getCompressedJavasCript(int linebreak, boolean munge, boolean verbose,
+            boolean preserveAllSemiColons, boolean disableOptimizations)
+            throws IOException {
 
         this.munge = munge;
         this.verbose = verbose;
@@ -554,8 +572,7 @@ public class JavaScriptCompressor {
         // DO NOT TOUCH this.tokens BETWEEN THESE TWO PHASES (BECAUSE OF this.indexedScopes)
         mungeSymboltree();
         StringBuffer sb = printSymbolTree(linebreak, preserveAllSemiColons);
-
-        out.write(sb.toString());
+        return sb.toString();
     }
 
     private ScriptOrFnScope getCurrentScope() {

@@ -73,7 +73,7 @@ public class YUICompressor {
             }
 
             String type = (String) parser.getOptionValue(typeOpt);
-            if (type != null && !type.equalsIgnoreCase("js") && !type.equalsIgnoreCase("css")) {
+            if (type != null && !type.equalsIgnoreCase("js") && !type.equalsIgnoreCase("css") && !type.equalsIgnoreCase("html")) {
                 usage();
                 System.exit(1);
             }
@@ -110,7 +110,7 @@ public class YUICompressor {
                             }
                         }
 
-                        if (type == null || !type.equalsIgnoreCase("js") && !type.equalsIgnoreCase("css")) {
+                        if (type == null || !type.equalsIgnoreCase("js") && !type.equalsIgnoreCase("css")&& !type.equalsIgnoreCase("html")) {
                             usage();
                             System.exit(1);
                         }
@@ -195,6 +195,47 @@ public class YUICompressor {
                         }
 
                         compressor.compress(out, linebreakpos);
+                    } else if (type.equalsIgnoreCase("html")) {
+                    	HtmlCompressor compressor = new HtmlCompressor(in, new ErrorReporter() {
+
+                            public void warning(String message, String sourceName,
+                                    int line, String lineSource, int lineOffset) {
+                                if (line < 0) {
+                                    System.err.println("\n[WARNING] " + message);
+                                } else {
+                                    System.err.println("\n[WARNING] " + line + ':' + lineOffset + ':' + message);
+                                }
+                            }
+
+                            public void error(String message, String sourceName,
+                                    int line, String lineSource, int lineOffset) {
+                                if (line < 0) {
+                                    System.err.println("\n[ERROR] " + message);
+                                } else {
+                                    System.err.println("\n[ERROR] " + line + ':' + lineOffset + ':' + message);
+                                }
+                            }
+
+                            public EvaluatorException runtimeError(String message, String sourceName,
+                                    int line, String lineSource, int lineOffset) {
+                                error(message, sourceName, line, lineSource, lineOffset);
+                                return new EvaluatorException(message);
+                            }
+                        });
+                    	// Close the input stream first, and then open the output stream,
+                        // in case the output file should override the input file.
+                        in.close(); in = null;
+
+                        if (outputFilename == null) {
+                            out = new OutputStreamWriter(System.out, charset);
+                        } else {
+                            out = new OutputStreamWriter(new FileOutputStream(outputFilename), charset);
+                        }
+                        boolean munge = parser.getOptionValue(nomungeOpt) == null;
+                        boolean preserveAllSemiColons = parser.getOptionValue(preserveSemiOpt) != null;
+                        boolean disableOptimizations = parser.getOptionValue(disableOptimizationsOpt) != null;
+                        compressor.compress(out, linebreakpos, munge, verbose,
+                                preserveAllSemiColons, disableOptimizations);
                     }
 
                 } catch (IOException e) {
@@ -230,11 +271,11 @@ public class YUICompressor {
 
     private static void usage() {
         System.err.println(
-                "\nUsage: java -jar yuicompressor-2.4.6.jar [options] [input file]\n\n"
+                "\nUsage: java -jar yuicompressor-2.4.8pre.jar [options] [input file]\n\n"
 
                         + "Global Options\n"
                         + "  -h, --help                Displays this information\n"
-                        + "  --type <js|css>           Specifies the type of the input file\n"
+                        + "  --type <js|css|html>           Specifies the type of the input file\n"
                         + "  --charset <charset>       Read the input file using <charset>\n"
                         + "  --line-break <column>     Insert a line break after the specified column number\n"
                         + "  -v, --verbose             Display informational messages and warnings\n"
@@ -242,6 +283,7 @@ public class YUICompressor {
                         + "                            Multiple files can be processed using the following syntax:\n"
                         + "                            java -jar yuicompressor.jar -o '.css$:-min.css' *.css\n"
                         + "                            java -jar yuicompressor.jar -o '.js$:-min.js' *.js\n\n"
+                        + "                            java -jar yuicompressor.jar -o .js$:-min.html *.js\n\n"
 
                         + "JavaScript Options\n"
                         + "  --nomunge                 Minify only, do not obfuscate\n"
@@ -250,6 +292,6 @@ public class YUICompressor {
 
                         + "If no input file is specified, it defaults to stdin. In this case, the 'type'\n"
                         + "option is required. Otherwise, the 'type' option is required only if the input\n"
-                        + "file extension is neither 'js' nor 'css'.");
+                        + "file extension is not 'js' 'css' or 'html'.");
     }
 }
