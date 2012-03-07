@@ -16,12 +16,6 @@ import org.mozilla.javascript.EvaluatorException;
  * @createdate2012.3.5
  */
 public class HtmlCompressor {
-	private StringBuffer srcsb = new StringBuffer();
-	private ErrorReporter reporter = null;
-	// 临时替换$,因为$会被当成正则全局对象
-	private String $_TEMP_MARK = "#-#";
-	// $匹配
-	private String $_REG = "\\$";
 
 	public HtmlCompressor(Reader in, ErrorReporter reporter)
 			throws IOException, EvaluatorException {
@@ -29,7 +23,6 @@ public class HtmlCompressor {
 		while ((c = in.read()) != -1) {
 			srcsb.append((char) c);
 		}
-//		this.srcsb = convertStreamToString(in);
 		this.reporter = reporter;
 	}
 
@@ -77,13 +70,15 @@ public class HtmlCompressor {
 	 */
 	public String cssCompress(String html, int linebreak) throws IOException {
 		StringBuffer htm = new StringBuffer();
-		Pattern cssp = Pattern.compile("(^<style[^<>]*?>)(.+?)(^</style>)", Pattern.DOTALL|Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
+		Pattern cssp = Pattern.compile(STYLE_REG, Pattern.DOTALL|Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
 		Matcher cssm = cssp.matcher(html);
 		while (cssm.find()) {
 			String css = cssm.group(2);
 			StringReader cssReader = new StringReader(css);
 			CssCompressor cssCompressor = new CssCompressor(cssReader);
 			String replaceSb = cssCompressor.getCompressedCss(linebreak);
+			replaceSb = replaceSb.replaceAll(ESCAPE_CHARACTER, ESCAPE_CHARACTER_REPLACEMENT);
+			replaceSb = replaceSb.replaceAll($_REG, $_REPLACEMENT);
 			cssm.appendReplacement(htm, cssm.group(1) + replaceSb + cssm.group(3));
 		}
 		cssm.appendTail(htm);
@@ -106,7 +101,7 @@ public class HtmlCompressor {
 			boolean verbose, boolean preserveAllSemiColons,
 			boolean disableOptimizations) throws EvaluatorException, IOException {
 		StringBuffer htm = new StringBuffer();
-		Pattern jsp = Pattern.compile("(^<script[^<>]*?>)(.+?)(^</script>)", Pattern.DOTALL|Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
+		Pattern jsp = Pattern.compile(SCRIPT_REG, Pattern.DOTALL|Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
 		Matcher jsm = jsp.matcher(html);
 		while (jsm.find()) {
 			String script = jsm.group(2);
@@ -115,10 +110,28 @@ public class HtmlCompressor {
 					scriptReader, this.reporter);
 			String replaceSb = jsCompressor.getCompressedJavasCript(linebreak, munge,
 					verbose, preserveAllSemiColons, disableOptimizations);
-			replaceSb = replaceSb.replaceAll(this.$_REG, this.$_TEMP_MARK).replaceAll("\\\\", "\\\\\\\\");
+			replaceSb = replaceSb.replaceAll(ESCAPE_CHARACTER, ESCAPE_CHARACTER_REPLACEMENT);
+			replaceSb = replaceSb.replaceAll($_REG, $_REPLACEMENT);
 			jsm.appendReplacement(htm, jsm.group(1) + replaceSb + jsm.group(3));
 		}
 		jsm.appendTail(htm);
-		return htm.toString().replace(this.$_TEMP_MARK, "$");
+		return htm.toString();
 	}
+	// 源文件字符串
+	private StringBuffer srcsb = new StringBuffer();
+	// 处理JavaScript异常类
+	private ErrorReporter reporter = null;
+	// 获取css样式正则表达式
+	private static final String STYLE_REG = "(^<style[^<>]*?>)(.+?)(^</style>)";
+	// 获取JavaScript样式正则表达式
+	private static final String SCRIPT_REG = "(^<script[^<>]*?>)(.+?)(^</script>)";
+	// 更换$输出转义$,因为$会被当成正则全局对象
+	private static final String $_REPLACEMENT = "\\\\\\$";
+	// 获取$符的正则表达式
+	private static final String $_REG = "\\$";
+	// 获取转义字符正则表达式
+	private static final String ESCAPE_CHARACTER = "\\\\";
+	// 更换转义字符，输出转义字符
+	private static final String ESCAPE_CHARACTER_REPLACEMENT = "\\\\\\\\";
+	
 }
