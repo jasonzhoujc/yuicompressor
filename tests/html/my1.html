@@ -1,0 +1,2959 @@
+<div id="poiLst" class="result"></div>
+<div id="poiDtl" class="result" style="display:none;">
+  <dl class="res poi">
+    <dt id="poiDtl0" class="hd"></dt>
+    <dd id="placeInfo" class ="info_mod dtl_mod_plinfo"  style="display:none" ></dd>
+    <dd id="poiDtl2" class="info_mod mod_jingang">
+        <!-- mod_jingang start={ -->
+        <table class="btn_tab" cellspacing="0" border="0" cellpadding="0">
+            <tr>
+                <td onclick="Instances('##guid##').getHere()">
+                    <div class="btn_item btn_gohere"></div>
+                    <span>到这里去</span>
+                </td>
+                <td onclick="Instances('##guid##').fromHere()">
+                    <div class="btn_item btn_from"></div>
+                    <span>从这里出发</span>
+                </td>
+                <td onclick="Instances('##guid##').circleSch()">
+                    <div class="btn_item btn_nearby"></div>
+                    <span>周边搜索</span>
+                </td>
+                <td onclick="Instances('##guid##').showMap(1)">
+                    <div class="btn_item btn_map"></div>
+                    <span>查看地图</span>
+                </td>
+            </tr>
+        </table>
+        <!-- mod_jingang end = } -->
+    </dd>
+    <dd id="poiDtl1"  style="display:none" class="info_mod mod_tel"  style="display:none" ></dd>
+    <dd id ="placeDtl" class="info_mod mod_text mod_dtl"  style="display:none" ></dd>
+    <dd id ="placeComment" class="info_mod mod_text mod_comment"  style="display:none" ></dd>
+    <dd id ="siteLink" class="info_mod mod_text mod_site"  style="display:none" ></dd>
+    
+<!--     <dd id="poiDtl3" class="info_mod "></dd> -->
+    <dd id="poiDtl4" class="info_mod mod_poiDtl_list"  style="display:none" ></dd>
+  </dl>
+  <div  class="rl_footer" id="poiDtl_footer">                                        
+      <span onclick="Instances('##guid##').back1()" class="rl_view_list btn_white">
+          <b></b>
+      </span>
+  </div>
+</div>
+<div id="poiLineDtl" class="result" style="display:none;">
+  <dl class="res poi">
+    <dt id="poiLineDtl0" class="hd"></dt>
+    <dd id="poiLineDtl1" class="bd"></dd>
+    <dd id="poiLineDtl3" class="info_mod mod_poidtl_list"></dd>
+  </dl>
+  <div  class="rl_footer" id="poiLineDtl_footer">        
+    <div class="rl_ft_icon rl_view_map btn_white" onclick="Instances('##guid##').showMap(0)">
+        <span class="rl_map_icon"></span>
+      </div>                                
+    <span onclick="Instances('##guid##').back1()" class="rl_view_list btn_white">
+      <b></b>
+    </span>
+  </div>
+</div>
+<div id="poiCrl" class="result" style="display:none;font-size:14px;"></div>
+<style type="text/css">
+.result{background-color:#EEE;}
+.poi_pp{float:left;text-align:left;}
+.poi_np{float:right;text-align:right;}
+.iw_cc .iw_poil{float:left;width:1.75em;height:2.25em;}
+.iw_cc .p0{background-position:-2.071em -0;}
+.iw_cc .p1{background-position:-2.071em -2.286em;}
+.iw_cc .p2{background-position:-2.071em -4.571em;}
+.iw_cc .p3{background-position:-2.071em -6.857em;}
+.iw_cc .p4{background-position:-2.071em -9.143em;}
+.iw_cc .p5{background-position:-2.071em -11.429em;}
+.iw_cc .p6{background-position:-2.071em -13.714em;}
+.iw_cc .p7{background-position:-2.071em -16em;}
+.iw_cc .p8{background-position:-2.071em -18.286em;}
+.iw_cc .p9{background-position:-2.071em -20.571em;}
+.iw_cc .iw_poir{margin-left:2em; }
+.iw_cc .poi_t{color:#333;overflow:hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;}
+.iw_cc .poi_c{font-size:0.85em;color:#6D7276;overflow:hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;}
+.mt10{margin-top:10px}
+.mt5{margin-top:5px}
+.hasTB{border-top:1px solid #bfd0f5}
+.substop_detail{overflow:hidden;zoom:1}
+.substop_detail table{border-collapse:collapse;margin-left:45px;}
+/*地铁站列表表格*/
+.ss_time_info{
+    border:0;
+    padding:0;
+    text-align:left;
+    border-radius:3px;
+    color: #606060;
+    width:100%;
+}
+.ss_time_info th, .ss_time_info td{
+    text-align:left;
+}
+.ss_time_info .col_dirt{
+    padding-left: 0.75em;
+}
+.ss_time_info th{
+    background-color:#DDDDDD;
+    border-bottom:1px solid #F2F2F2;
+    height:1.964em;
+    color: #4d4c4c;
+}
+.ss_time_info td{
+    height:2.14em;
+    border-bottom:1px solid #D4D4D4;
+    border-top:1px solid #F2F2F2;
+    padding-left:0.5em;
+}
+.ss_time_info tbody tr:first-child td{
+    border-top:1px solid #D4D4D4;
+}
+.ss_time_info tbody tr:last-child td{
+    border-bottom:none;
+}
+.nsupport img{display:none}
+.bj em, .shh em, .gzh em{display:inline-block;width:1.25em;height:1.25em;margin-right:0.25em;vertical-align:middle;}
+.bj .l_1{background-position:0em 0}
+.bj .l_2{background-position:-1.25em 0}
+.bj .l_4{background-position:-2.5em 0}
+.bj .l_5{background-position:-3.75em 0}
+.bj .l_8{background-position:-5em 0}
+.bj .l_9{background-position:-6.25em 0}
+.bj .l_10{background-position:-7.5em 0}
+.bj .l_13{background-position:0 -1.25em}
+.bj .l_15{background-position:-1.25em -1.25em}
+.bj .l_8t{background-position:-2.5em -1.25em}
+.bj .l_air{background-position:-6.25em -1.25em}
+.shh .l_1{background-position:0em 0}
+.shh .l_2{background-position:-1.25em 0}
+.shh .l_3{background-position:-2.5em 0}
+.shh .l_4{background-position:-3.75em 0}
+.shh .l_5{background-position:-5em 0}
+.shh .l_6{background-position:-6.25em 0}
+.shh .l_7{background-position:-0em -1.25em}
+.shh .l_8{background-position:-1.25em -1.25em}
+.shh .l_9{background-position:-2.5em -1.25em}
+.shh .l_10{background-position:-3.75em -1.25em}
+.shh .l_11{background-position:-5em -1.25em}
+.shh .l_cxf{background-position:-6.25em -1.25em}
+.gzh .l_1{background-position:0em 0}
+.gzh .l_2{background-position:-1.25em 0}
+.gzh .l_3{background-position:-2.5em 0}
+.gzh .l_4{background-position:-3.75em 0}
+.gzh .l_5{background-position:-5em 0}
+.gzh .l_8{background-position:0 -1.25em}
+.gzh .l_3z{background-position:-1.25em -1.25em;}
+.ss_time_info .col_time{width:65px}
+.ss_exit_0,.ss_exit_1,.ss_exit_2,.ss_exit_3,.ss_exit_4,.ss_exit_5,.ss_exit_6,.ss_exit_7,.ss_exit_0_0,.ss_exit_0_1,.ss_exit_2_0,.ss_exit_2_1,.ss_exit_5_0,.ss_exit_5_1,.ss_exit_9_0,.ss_exit_9_1{margin-top:5px;float:left;width:37px;height:38px;background:url(img/substa_detail.gif) no-repeat}
+.ss_exit_1{background-position:-40px 0}
+.ss_exit_2{background-position:-80px 0}
+.ss_exit_3{background-position:-120px 0}
+.ss_exit_4{background-position:-160px 0}
+.ss_exit_5{background-position:-200px 0}
+.ss_exit_6{background-position:-240px 0}
+.ss_exit_7{background-position:-280px 0}
+.ss_exit_0_0{background-position:0 -80px}
+.ss_exit_0_1{background-position:0 -118px}
+.ss_exit_2_0{background-position:-80px -80px}
+.ss_exit_2_1{background-position:-80px -118px}
+.ss_exit_5_0{background-position:-200px -80px}
+.ss_exit_5_1{background-position:-200px -118px}
+.ss_exit_9_0{background-position:-360px -80px}
+.ss_exit_9_1{background-position:-360px -118px}
+.poi_binfo{
+    margin:5px 10px;
+}
+.line_info_tab{
+    width:100%;
+    color:#6A6A6A;
+}
+.line_info_tab td{
+    border-bottom:1px solid #D1D1D1;
+    border-top:1px solid #F1F1F1;
+}
+.line_info_tab tr:first-child td{
+    border-top:none;    
+}
+.line_info_tab tr:last-child td{
+    border-bottom:none;    
+}
+.line_info_tab td{
+    width:50%;
+    font-weight:normal;
+    padding: 0.429em 0.25em;
+    text-align:left;
+    vertical-align:top;
+}
+.crl_dis{
+    float:right;
+    color:#95979A;
+    text-align:right;
+}
+.crl_ar{
+    color:#333;
+    overflow:hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+ }
+.tellink{
+    text-decoration:none;
+    color:#222;
+}
+.list .gt1{
+    width:24px;
+    height:24px;
+    -webkit-border-radius:12px;
+     -webkit-box-sizing:border-box;
+     position:absolute;
+    top:50%;
+    right:8px;
+    margin-top:-7px;
+    background:url(img/bgs.png) no-repeat -51px -421px;
+}
+.gtdiv{
+    width:44px;
+    height:100%;
+    position:absolute;
+    right:0px;
+    top:0px;
+}
+</style>
+
+<script type="text/javascript" compress="true">
+function PoiSearch(){
+    baidu.lang.Class.call(this);
+    this.json             = null;
+    this.wd               = "";
+    this.MAX_RESULT_COUNT = 760;
+    this.itemsPerPage     = 10;
+    this.curSelA          = null;
+    this.cmdNo            = 1;
+    this.points           = [];
+    this.uids             = [];
+    window.poiMarkers     = [];
+    this.infoWnds         = [];
+    this.busStopPois      = [];
+    this.stationPoints    = [];
+    this.showIconIndices  = [];
+    this.tp               = 0;        //保存返回结果类型type
+    this._content         = [];     //保存json中的content字段
+    
+    /**
+    * 当前查询的关键字
+    * @type String
+    */
+    this.curKw            = "";
+    this.sugKw            = "";
+    this.curItemPPage     = 0;
+    this.curPage          = 0;
+    this.totalCount       = 0;
+    this.totalPage        = 0;
+    this.curSelIndex      = -1;
+    this.ptPoiInd         = 0;          //普通点起始点索引
+    
+    // 周边检索中心点
+    this.centerPt         = null;
+    this.centerPoi        = null;
+    this.cInfoWnd         = null;
+    
+    this.radius           = 0;
+    
+    this.isnbSearch       = false;
+    this.ctrPoiName       = "未知地点";  // 默认为"未知地点"，用于地图右键的周边检索
+    this.ctrPoiUid        = null;
+    
+    this.busPolylines     = [];
+    this.normPolylines    = [];
+    this.normPolygons     = [];
+    
+    //公交站点Tips by jican
+    this.stationTips      = [];
+    
+    // 本次检索所在的行政区域
+    this.sCityCode        = 0;
+    this.sCityName        = "";
+    
+    // url复现的索引数组
+    this.reIndex          = [];
+    this.ptDtl            = {wd : "", uid : "", cc : 0, pt : null};
+    this.isGRequest       = false;
+    
+    // 是否共享点需求
+    this.isSharePoi       = false;
+    // 是否没有uid的周边请求，例如共享位置点
+    this.isRightClickCir  = false;
+
+    //缩略图服务地址
+    this.thumbUrl = "http://map.baidu.com/maps/services/thumbnails";
+    this.deviceConfig = {};
+    
+    //place行业类型以及对应的处理函数
+    this.placeType        = {
+        hotel : this.hotelPlace
+    };
+    this.defaultTitle     = ["默认范围","默认排序","默认分类"];
+    //place 筛选规则，如果新加行业，需要添加该行业的筛选规则
+    this.placeRule        = {
+        hotel : {
+            dist : ["0|默认范围", "0,500|500米", "0,1000|1000米", "0,2000|2000米", "0,5000|5000米"],
+            sort_type : ["default|默认排序","price__0|价格 高→低","price__1|价格 低→高","total_score|评分","level|星级","health_score|卫生", "distance|距离"],
+            sub_type : ["酒店","快捷酒店", "星级酒店", "旅馆", "度假村", "五星级", "四星级", "三星级", "招待所", "青年旅社"]
+            }
+    };
+    //展示列表参数
+    this.option = {
+        className : 'rl_poi_box',
+        header : {
+            title : '',
+            data : {}
+        },
+        main : {
+            list : {
+                className : "rl_list_ps",
+                liTitle : '<strong class = "rl_li_title">#name#</strong>',
+                attrs : 'onclick = "Instances(\'' + this.guid + '\')._showNDtl(#no#)"',
+                liSubTitle : "!!<p>#star# #price#</p><p>#address#</p>",
+                optImage : '<span class="rl_opt" onmousedown = "Instances(\''+ this.guid+ '\')._showNDtl(#no#);return false;">#dist#<em class="rl_go_dtl"></em></span>',
+                data : [],
+                option : {
+                    hover : true
+                }
+            }
+        },
+        footer : {
+            footerIcon : '!!<div class="rl_ft_icon rl_view_map btn_white" onclick="Instances(\'' + this.guid + '\').showMap(0)">\
+                                <span class="rl_map_icon"></span>\
+                          </div>',
+            data : {
+                goback : '返回'
+            }
+        }
+    };
+    this.tpl = {
+        GRTitle : '<em class="btn_white rl_t_btn" onclick = "Instances(\''+ this.guid+'\').setMyPosition();">#poiName#</em>\
+                 <span class="rl_t_con">附近搜</span>\
+                 <em class="btn_white rl_t_btn" onclick ="switchIndex.toBtn();">#wd#</em>',
+        commonTitle : '#wd#的搜索结果：',
+        star : '<span class="star_box">\
+                    <span class ="star_scroe" style = "width:#rate#em"></span>\
+                </span>',
+        marker : '!!<span class="rl_t_icon rl_mk" style="background-position:#bgPosition#"></span>',
+        select : '  <span class ="select_box" id="#id#">\
+                        <em class = "select_title">#selectTitle#</em>\
+                        <select name="#ruleName#" defaultValue = "#defaultValue#" >\
+                            #options#\
+                        </select>\
+                        <span class="select_icon"></span>\
+                    </span>',
+        selectOpt : '<option value="#optValue#">#optName#</option>',
+        selectBox : '<div id = "selectBox" class = "rl_bl_rule">#selects#</div>',
+        page : '<div class="change_page" id="pageBox">\
+                    <button class = "page_btn">&lt;&nbsp;上一页</button>\
+                    <button class = "page_btn">下一页&nbsp;&gt;</button>\
+                </div>',
+        infoMod : '<div class="title">\
+                        <h3>#title#</h3>\
+                        <span class="t_icon"></span>\
+                    </div>\
+                    <div class="content">\
+                        <ul class="mod_text_list">\
+                            #modListData#\
+                        </ul>\
+                    </div>'
+    };
+    this.config = {         //参数配置
+        //通用配置
+        common : {
+            review : ["cn_name","info","url"],
+        },
+        //酒店类型所需数据
+        hotel : {
+            detail_info : ["overall_rating","image","price"],
+            ratingRank : ["facility_rating", "service_rating", "hygiene_rating"],
+            rating : {
+                "facility_rating" : {
+                    name : "设施"
+                },
+                "service_rating" : {
+                    name : "服务"
+                },
+                "hygiene_rating" : {
+                    name : "卫生"
+                },
+            },
+            rich_infoRank : ["category", "level", "inner_facility", "hotel_facility", "hotel_service"],
+            rich_info : {
+                "category" : {
+                    name : "酒店类型"
+                },
+                "level" : {
+                    name : "酒店星级"
+                },
+                "inner_facility" : {
+                    name : "房间设施"
+                },
+                "hotel_facility" : {
+                    name : "酒店设施"
+                },
+                "hotel_service" : {
+                    name : "酒店服务"
+                },
+                "environment_exterior" : {
+                    name : "周边环境"
+                }
+            }
+        }
+    };
+    this.coopSite = {
+        "daodao" : {
+            name : "到到网"
+        },
+        "kuxun" : {
+            name : "酷讯"
+        },
+        "qunar" : {
+            name : "去哪儿"
+        },
+    }
+}
+baidu.lang.inherits(PoiSearch, baidu.lang.Class, "PoiSearch");
+baidu.extend(PoiSearch.prototype, {
+  /**
+   * 组件HTML渲染
+   * @param {Object} html
+   * @param {Object} json
+   */
+  render: function(html, json){
+
+    var j = this.json = json, modelQuery = this.modelQuery;
+    
+    // 判断是否贡献点需求
+    if(!json.result.type && this.modelQuery.indexOf("act=read_share") > -1) {
+        this.isSharePoi = this.isRightClickCir = true;
+        return html.replace(/##guid##/ig, this.guid);
+    }
+    
+    if(json.result.type == 38 && this.cinfo && this.cinfo.centerPoint) {
+        this.isRightClickCir = true;
+    }
+    
+    if(this.cinfo && this.isRightClickCir) {
+        if(ModelMgr.mainModel.modelQuery.indexOf("tpl:PoiSearch") != 0) {
+          ModelMgr.mainModel.modelQuery = "tpl:PoiSearch?" + ModelMgr.mainModel.modelQuery;
+        }
+    }
+
+    //从城市选择页过来的检索
+    if(this.cinfo && this.cinfo.isFromCitySel) {
+        var cur = j.current_city;
+        //设置当前城市;
+        locationBar.setCity(cur.code,cur.name,{type:cur.type});
+        this._showPlaceName = cur.name;
+    }
+    
+    if(json.result.total == 0) {
+        return "<div></div>";
+    }
+    
+    this.tp = json.result.type;
+    r = j.result;
+    // 本次检索的行政区域
+    if (j.current_city){
+      this.sCityCode = j.current_city.code;
+      this.sCityName = j.current_city.name;
+      this.ctype     = j.current_city.type;
+    } else {
+      this.sCityCode = modelConfig.cityCode;
+      this.sCityName = modelConfig.cityName;
+    }
+    this.cmdNo        = r.cmd_no;
+    this.wd = json.result.wd;
+    if(r.type != 11) {
+      this.isGRequest = true;
+    }
+    
+    this.setDeviceCfg();
+
+    /** 结果列表改写 by caodongqing 2011-12-9 start={ **/
+    
+    //设置结果列表头部
+    this.setHeader();  
+    //设置结果列表主体部分数据
+    this.setListBody();
+    //设置结果列表底部
+    //this.setFooter();
+    //添加事件
+    this.addEvent();
+    
+    /** 结果列表改写 end=} **/
+    if(json.content){
+        this._saveContent(json.content);
+    }    
+    
+    return html.replace(/##guid##/ig, this.guid);
+  },
+  /**
+   * 初试化组件，绑定事件
+   */
+  initialize: function(){
+    console.log(this);
+    //绑定结果列表事件
+    
+    var me = this;
+    // 贡献点需求，添加mkr，设置信息窗
+    if(me.isSharePoi) {
+      me.addSharePoi();
+      return;
+    }
+
+    if(me.json.result.total == 0) {
+      TxtBox.show('未能找到相关结果', true);
+      if(me.tp != 11) {
+        GRCtr.setGRF(500);
+        //GRCtr.sendMDRequest();
+        if(me.json.result.type == 38 && me.isRightClickCir && me.cinfo) {
+             GRCtr.setGRData(me.json, {cinfo : me.cinfo});
+        } else {
+             GRCtr.setGRData(me.json);
+        }
+      }
+      switchIndex.toBtn();
+      return;
+    }
+    var isHideList =false;
+    if(me.cinfo && me.cinfo.isFromGRDrag) {//来自范需求底图拖拽，不渲染列表
+        isHideList = true;
+    }
+    //实例化一个结果列表
+    var rList = new ResultList('poiLst',me.option, isHideList);
+    me.rList = rList;
+
+    var me = me;
+    if(window.indexType == "map") {
+        me.initPoiMap();
+    } else {
+        me._f();
+    }
+  },
+
+  /**
+  * 渲染地图部分
+  */
+    initPoiMap : function() {
+        var me = this;
+        setTimeout(function(){
+            me.addPoints();
+            if(me.tp == 38) {
+                if(me.isRightClickCir) {
+                    me.centerPt = me.cinfo.centerPoint;
+                    me.centerPoi = addCenterMarker(me.centerPt, me.cinfo);
+                    me.ctrPoiUid =  null;
+                } else if(me.json.center) {
+                    // 添加中心点
+                    var ctr = me.json.center;
+                    me.centerPt = getPointByStr(parseGeo(ctr.poi[0].geo).points);
+                    me.centerPoi = addCenterMarker(me.centerPt, ctr.poi[0]);
+                    me.ctrPoiUid =  ctr.poi[0].uid;
+                }
+            }
+            if(me.tp != 11) {
+                    GRCtr.setGRF(500);
+                    if(me.json.result.type == 38 && me.isRightClickCir && me.cinfo) {
+                        GRCtr.setGRData(me.json, {cinfo : me.cinfo});  
+                    } else {
+                        GRCtr.setGRData(me.json);
+                    }
+                        if(me.cinfo && me.cinfo._index && me.cinfo._index.indexOf("uid,") >= 0) {
+                        //打开url复现中的气泡
+                        var uid = me.cinfo._index.split("uid,")[1];
+                        GRCtr.sendInfoRequest(uid, true);
+                    }
+            }
+            if(me.json.result.op_gel == 1 && me.json.result.res_l > 0){
+                GRCtr.setGRF(1000);
+                var pt = new BMap.Point(me.json.result.res_x, me.json.result.res_y);
+                var lev = me.json.result.res_l;
+                if(me.modelQuery &&
+                me.modelQuery.indexOf("con") > -1) {
+                    lev += 1;
+            }
+            map.setViewport({center : pt, zoom : lev}, SvpOpts);
+            // 初始地图时，如果未渲染过地图，需要先渲染地图后发范需求请求
+            setTimeout(function(){
+                GRCtr.sendMDRequest();
+                },100);
+            } else {
+                map.setViewport(me.points, SvpOpts);
+            }
+            // 延时添加点，显示效果
+            me.addMarker();
+            
+            // url分享的解析
+            if(!me._getShare()){
+                setTimeout(function(){
+                    var poitp = me._getContent()[0].poiType
+                    if(poitp == POI_TYPE_BUSLINE || poitp == POI_TYPE_SUBLINE) {
+                        me.selectBusLine(me._getContent()[0].uid, null, null, true);
+                    } else {
+                        me.select(0, true, true);
+                    }
+                }, 1)
+            }
+            if(!window.clearPoiRoute) {
+                    window.clearPoiRoute = function() {
+                    me._clearLine();
+                }
+            }
+            me.isInit = true;
+        },100);
+    },
+
+    /**
+     * 设置设备配置
+     */
+    setDeviceCfg : function() {
+        var dCfg = this.deviceConfig;
+        var scale = deviceType == "hd" ? 2 : 1;
+        dCfg.imgWidth = 124 * scale;
+        dCfg.imgHeight = 93 * scale;
+        dCfg.oneStarW = 19 * scale;
+        dCfg.mkrWidth = 25 * scale;
+    },
+  /**
+   * 返回需要显示的控件
+   */
+  setCCStatus: function() {
+    var me = this;
+    // 共享位置点需求样式
+    if(me.isSharePoi) {
+      return me.getCCArray(1);
+    }
+    var arr = [];
+    // 无结果
+    if(me.json.result.total == 0) {
+      arr = me.getCCArray(0);
+      if(this.isTf()) arr.push("tfCon");
+      return arr;
+    }
+    if(me.cinfo && me.cinfo.isClickNextPage) {
+      // 点击上一页下一页的翻页效果，展现结果页
+      return ["MapInfo"];
+    } else {
+      this.setBtnCon();
+      arr = me.getCCArray(1);
+      if(this.isTf()) arr.push("tfCon");
+      return arr;
+    }
+  },
+    /**
+     * 销毁组件
+     */
+    unload: function(){
+        var me = this;
+        me._clearMkrs()
+        me._clearBusLine();
+        me._clearLine();
+        //如果有全局place参数，则清除place参数
+        if(window.placeParam) {
+            delete window.placeParam;
+        }
+        if(me.rList) {
+            me.rList.destory();
+        }
+        window.clearPoiRoute = null;
+    },
+    
+    /**
+    * 设置结果列表头部
+    * @author caodongqing 2011-12-9
+    */
+    setHeader : function() {
+        var me = this,
+            result = me.json.result,
+            wd = me.wd,
+            poiName = '',
+            mQ = me.modelQuery;
+            
+        if(result.type == 38 || me.isGRequest) {
+            if(this.isRightClickCir) {
+                poiName = this.cinfo.name || "未知地点";
+            } else if(this.json.center) {
+                poiName = this.json.center.poi[0].name;
+            } else if(mQ.indexOf('showPlaceName') > -1){
+                poiName = decodeURIComponent(mQ.match(/&showPlaceName=([^&]*)/)[1]);
+            } else {
+                poiName = locationBar.getPlaceName();
+            }
+            this.setGRTitle(wd,poiName);
+        } else {
+            this.setComTitle(this.wd);
+        }
+    },
+  
+    /**
+     * 设置范需求头部
+     * @param{String} word 检索关键词
+     * @param{String} poiName 位置名称
+     */
+    setGRTitle : function(word, poiName) {
+        var me = this,
+            wd = word || '',
+            poiWd = poiName,
+            tpl = me.tpl.GRTitle,
+            hd = me.option.header;
+        
+        hd.title = tpl;
+        hd.data = {
+            poiName : poiWd,
+            wd : wd
+        }
+    },
+    
+    /**
+    * 设置普通检索头部
+    * @param{String} word 检索关键词
+    */
+    setComTitle : function(word) {
+        var me = this,
+            wd = word || "未知地点",
+            tpl = me.tpl.commonTitle,
+            hd = me.option.header;
+            
+        hd.title = tpl;
+        hd.data = {
+            wd : wd
+        }
+    },
+    
+    /**
+    * 设置筛选条件
+    * @param{Object} plData place数据信息
+    */
+    _setSelectRule : function(plData) {
+        var me = this,
+            pl = plData || me.json.place_info || null;
+        
+        if(!pl) {
+            return;
+        };
+        var html = me.getSelectHtml();
+        me.option.main.beforeList = {
+            tpl : html
+        }
+        me.isHanderSelect = true;
+        
+    },
+    
+    load : function() {
+        if(this.isHanderSelect) {
+            this.handlerSelect();
+        }
+        if(this.isSetPage) {
+            this.handlerPage();
+        }
+    },
+    /**
+    * 初始化筛选规则
+    * @param{Object} rule 筛选规则
+    */
+    _initRule : function(rule) {
+        if(!rule) {
+            return;
+        }
+        if(this.placeRuleCache) {
+            return this.placeRuleCache;
+        }
+        var myrule = {},
+            cache = [],
+            tempStr = [];
+        for(var p in rule) {
+            cache = rule[p];
+            myrule[p] = {}
+            //如果有“|”，则将“|”前的部分设为属性名，“|”后部分设为属性值
+            for(var i = 0, len = cache.length; i < len; i++) {
+                if(cache[i].indexOf("|") > -1) {
+                    tempStr = cache[i].split("|");
+                    myrule[p][tempStr[0]] = tempStr[1];
+                } else {
+                    myrule[p][cache[i]] = cache[i];
+                }
+            }
+        }
+        this.placeRuleCache = myrule;
+        return myrule;
+    },
+    
+    //获取筛选表单html
+    getSelectHtml : function() {
+        var me = this,
+            selectTpl = me.tpl.select,      
+            optionTpl = me.tpl.selectOpt,                           //option html模版
+            selectBox = me.tpl.selectBox,                           //select html模版    
+            placeInfo = me.json.place_info,                         //place数据
+            selectRule = me.placeRule[placeInfo.d_data_type],       //取得行业的筛选规则
+            title = me.defaultTitle,                                //取得默认筛选名称
+            count = 0,
+            tempOption = '',
+            tempSelect = '',
+            items = [],
+            opts = [],
+            cache = {},
+            defaultValue = "";
+            
+        //初始化筛选规则
+        var _rule = me._initRule(selectRule);
+        
+        //筛选的select表单是根据，placeRule中的配置属性创建的
+        for(var p in _rule) {
+            cache = _rule[p];
+            opts = [];
+            for(var q in cache) {
+                //调用结果列表的变量替换方法，替换tpl中的hash变量
+                tempOption = ResultList.prototype.replaceHash.call(me,optionTpl,{
+                    optValue : q,
+                    optName : cache[q]
+                });
+                opts.push(tempOption);
+            }
+            tempSelect = opts.join('');          //取得单个表达的html字符串
+            var valName = 'd_' + p;         //json结果加'd_'前缀
+            var paramValue = 'pl_' + p;     //url参数加'pl_'前缀
+            
+            defaultValue = placeInfo[valName];
+            if(placeInfo[valName] && placeInfo[valName].indexOf('-') > -1 ) {
+                defaultValue = placeInfo[valName].replace('-', ',');
+            }
+            
+            //获取一个select表单html
+            tempSelect = ResultList.prototype.replaceHash.call(me,selectTpl,{
+                selectTitle : title[count++],      //替换select表单模拟的 title
+                ruleName : paramValue,
+                defaultValue : defaultValue,
+                id : 'slct_' + valName,
+                options : tempSelect
+            });
+            items.push(tempSelect);
+        }
+        return selectBox.replace('#selects#', items.join(''));
+    },
+    
+    //添加select表单事件
+    handlerSelect : function() {
+        var me = this,
+            box = baidu.g('selectBox'),
+            items = box.getElementsByTagName('select'),
+            defaultValue = '',
+            defaultItem = {},
+            itemCache = null,
+            tempValue = '';
+        
+        if(!locationBar.hasExactPoi()) {
+            var disSelect = baidu.g('slct_d_dist');
+            baidu.addClass(disSelect, 'select_disable');
+        }
+        
+        for(var i = 0, iLen = items.length; i < iLen; i++) {
+            itemCache = items[i];
+            defaultValue = itemCache.getAttribute('defaultValue');
+            itemCache.value = baidu.trim(defaultValue.replace(",", ""));
+            
+            //select表单值修改后，重新搜索
+             itemCache.onchange = function() {
+                var parent = this.parentNode,
+                    selectedItem = this[this.selectedIndex],
+                    title = parent.getElementsByClassName('select_title')[0];
+                if(title) {
+                    title.innerHTML = selectedItem.text;
+                }
+                me._reload();
+            }
+        }
+    },
+    
+    /**
+    * 更改筛选条件后重搜
+    */
+    _reload : function() {
+        var me = this,
+            items = baidu.g('selectBox').getElementsByTagName('select'),
+            query = me.modelQuery,
+            itemCache = {},
+            reg = new RegExp(),
+            param = {};
+
+        var plType = me.placeDataType || '';
+        param.pl_data_type = plType;
+
+        for(var i = 0, len = items.length; i < len; i++) {
+            itemCache = items[i];
+            param[itemCache.name] =  itemCache.value;
+            
+            if(itemCache.name.indexOf('sub_type') > -1 
+                && itemCache.value != '' ) {
+                param.wd = itemCache.value;
+            }
+            if(itemCache.name.indexOf('sort_type') > -1 
+                && itemCache.value.indexOf("__") >-1 ) {
+                    var _value = itemCache.value.split('__');
+                param[itemCache.name] = _value[0];
+                param.pl_sort_rule = _value[1];
+            }
+        }
+        if(!param.pl_sort_rule) {
+            param.pl_sort_rule = 0;
+        }
+        //更新添加参数到请求query中
+        query = me._updateUrl(query,param);
+
+        me.modelQuery = query;
+        //设置place参数
+        me.setPlaceParam(query);
+        go(query, function(json){
+            var result = json.result;
+            //本城市内无结果，生成弹出层提示
+            if(result.type == 7 || result.total == 0){
+                var dlg = new Dialog("alert",{
+                    content : "未找到相关结果",
+                    noButton : true
+                })
+                return;
+            }
+            me.renderList(json);
+        });
+    },
+
+    /**
+     * @param{Array} content 保存json字段中content字段数据
+     */
+    _saveContent : function(content) {
+        if(!content || typeof content != "object") {
+            return;
+        }
+        var _content = this._content;
+        this._content = _content.concat(content);
+    },
+
+    /**
+     * @param{Array} content 重设json字段中content字段数据
+     */
+    _resetContent : function(content) {
+        if(!content || typeof content != "object") {
+            return;
+        }
+        this._content = content;
+    },
+
+    _restetJson : function(json) {
+        if(!json || typeof json != "object") {
+            return;
+        }
+        this.json = json;
+        this._resetContent(json.content);
+        this.isInit = false;
+    },
+
+    /**
+     * 重新渲染列表
+     * @param  {Object} json 
+     */
+    renderList : function(json) {
+        if(!json){
+            return;
+        }
+        var me = this,
+            data = json.content;
+        //格式化数据
+        var mydata = me._formatData(data);
+        //渲染替换列表数据
+        me.rList.replaceList(mydata);
+        //重设组件json数据
+        me._restetJson(json);
+        //保存当前页数
+        me.page_num = json.result.page_num;
+        //检查首末页
+        me.checkPage();
+        //设置place参数
+        if(me.isPlace) {
+            me.setPlaceParam();
+        }
+    },
+
+    /**
+     * 获取url中place参数
+     */
+    getPlaceParam : function(url) {
+        if(typeof url != "string") {
+            return;
+        }
+        var reg = new RegExp('(&pl_\w+)=([^&])','g');
+        var params = url.match(/(&pl_\w+)=([^&])+/g);
+        if(!!params && params.length != 0) {
+            return params.join('');    
+        }        
+    },
+
+    /**
+     * 设置place数据
+     * @param {String} url 
+     */
+    setPlaceParam : function(url) {
+        var query = url || this.getPlaceParam(this.modelQuery) || '';
+        window.placeParam = query;
+    },
+
+    /**
+     * @param{Array} content 重设json字段中content字段数据
+     */
+    _getContent : function() {
+        return this._content;
+    },
+    
+    /**
+    * 设置普通检索头部
+    * @param{String} word 检索关键词
+    */
+    setListBody : function() {
+        var me = this,
+            json = this.json,
+            data = json.content,
+            plData = me.json.place_info || null;
+            
+        var listData = me._formatData(data);
+        //把结果数据添加到option中
+        this.setListData(listData);
+        //数据超过10个展示正在更新状态栏
+        if(json.result.total > this.itemsPerPage) {
+            this.option.main.afterList = {
+                tpl : this.tpl.page
+            }
+            this.isSetPage = true;
+        }
+        //如果有place数据 则添加place展示样式,并添加相应的筛选条件
+        if(plData && typeof me.placeRule[plData.d_data_type] != "undefined") {
+            me.placeDataType = plData.d_data_type;
+            me.isPlace = true;
+            this.option.main.list.className = "rl_list_place";
+            //设置筛选条件
+            this._setSelectRule(plData);
+            //获取并设置place请求参数，用于请求麻点
+            this.setPlaceParam();
+        }
+    },
+    
+    /**
+    * 把结果数据添加到option中
+    * @param{Array} data 添加到列表中的数据
+    */
+    setListData : function(data) {
+        if(!data) {
+            return;
+        }
+        this.option.main.list.data = data;
+        
+        //设置marker tpl到option中
+        this.option.main.list.listImage = this.tpl.marker;
+    },
+    
+    /**
+    * 处理单个Poi数据项
+    * @param{Object} item 数据项
+    * @param{Number} no 数据项索引
+    * @param{Object} oriData 原始数据
+    */
+    _handlerPoi : function(item, no, oriData) {
+        var me = this,
+            ori = oriData || null;
+        if(ori 
+            && (ori.poiType == POI_TYPE_BUSLINE 
+                || ori.poiType == POI_TYPE_SUBLINE)
+          ) {
+            item.bgPosition =  '0 100%';
+            me.ptPoiInd++;
+            item.no = - me.ptPoiInd;
+            return item;
+          }
+        var index = no - me.ptPoiInd,
+            bg = me._getMarkerBg(index),    //获取Marker的背景定位值
+            plData = me.json.place_info || null,
+            ext = oriData.ext || null;
+        item.bgPosition = bg;
+        item.no = index;
+        item.dist = me._getDist(oriData.dis);
+        
+        item = me._setAddr(item, oriData);
+        //对有Place结果的数据特别处理
+        if(ext && typeof me.placeRule[ext.src_name] != "undefined") {
+            item = me.placeType[ext.src_name].call(me, item, index, ori);
+        }
+        return item;
+    },
+    
+    /**
+    * 获取Marker的背景值
+    * @param{Number} no 索引
+    */
+    _getMarkerBg : function(no) {
+        var index = parseInt(no) % 26; 
+        var n = parseInt(this.deviceConfig.mkrWidth);
+        var x = (-parseInt(index / 10) * n) + 'px';
+        var y = (-index % 10 * n) + 'px';
+        return '' + x + ' ' + y;
+    },
+    
+    /**
+    * 获取地址详细描述
+    * @param{Array} item 
+    * @param{Array} srcData 原始数据
+    */
+    _setAddr : function(item, srcData) {
+        if(!item || !srcData) {
+            return;
+        }
+        
+        var poiType = srcData.poiType,
+            addStr = '';
+        switch(poiType){
+            case POI_TYPE_SUBSTOP : 
+                item.address = '途经地铁：' + baidu.array.unique(srcData.addr.split(";")).join("; ");
+                item.name = item.name + '-地铁站';
+                break;
+            case POI_TYPE_BUSSTOP : 
+                item.address = '途经公交：' + baidu.array.unique(srcData.addr.split(";")).join("; ");
+                item.name = item.name + '-公交车站';
+                break;
+            default : item.address = '地址：' + srcData.addr;
+        }
+        return item;
+    },
+    
+    /**
+    * 设置普通检索头部
+    * @param{Object} item 数据项
+    * @param{Number} no 数据项索引
+    * @param{Object} oriData 原始数据
+    */
+    hotelPlace : function(item, no, oriData) {
+        var me = this;
+        
+        if(oriData.ext 
+            && oriData.ext.detail_info
+            && typeof oriData.ext.detail_info.overall_rating != "undefined") 
+        {
+            item.star = me.getStar(oriData.ext.detail_info.overall_rating) || '';
+            if(!!oriData.ext.detail_info.price){
+                item.price = "参考价：<span style='color:#c93230'>￥" + oriData.ext.detail_info.price + "</span>";
+            }
+        }
+    },
+
+    /**
+     * 获取距离值
+     * @param  {Number} dis 距离长度
+     * @return {[type]}
+     */
+    _getDist : function(dis) {
+        if(typeof dis != "number" || dis == 0) {
+            return '';
+        }
+        var no = parseInt(dis);
+        var distance = "";
+        if(no < 1000){
+            distance =  no + "m";
+        } else if( no >= 1000) {
+            no = parseInt(no/100)/10;
+            distance = no + "km"
+        }
+        return distance;
+    },
+    
+    //组件私有数据格式化函数
+    _formatData : function(data) {
+        if(!data) {
+            return;
+        }
+        var me = this;
+        var _mydata = formatData(data,{
+            filter : ['code','name','area'],
+            handler : function(item, no, oriData) {
+                        return PoiSearch.prototype._handlerPoi.call(me, item, no, oriData);
+                    }
+        });
+        return _mydata;
+        
+    },
+    
+    /**
+    * 获取star的宽度
+    * @param{Number} rate 评分
+    */
+    getStar : function(rate) {
+        if(!rate){
+            return;
+        }
+        var rt = parseInt(rate*10)/10,
+            starTpl = this.tpl.star;
+        
+        var width = rt;
+        var star = starTpl.replace('#rate#', width);
+        return star;
+    },
+    
+    /**
+    * 添加事件
+    */
+    addEvent : function() {
+        var me = this;
+        this.option.event = {};
+        var event = this.option.event;
+        
+        /*
+        //************ 注释原因 ******
+        //由于pm在滚动更新后，会出现无限加载后打点交互问题，
+        //因此取消了自动加载的更新方式
+        //同时，pm在考虑自动更新交互方案，因此注释保留以下实现
+        //@author caodongqing 2012-1-12
+        //************ end *******
+
+        //添加自动更新事件 
+        event.onupdate = function(callback) {
+            var query = me.modelQuery,
+                p = me.page_num  || me.json.result.page_num,
+                db = "&db=" + me.json.result.db,
+                grString = "&on_gel=1&src=7&gr=3",
+                pars = "&rn=10&pn=" + p + db,
+                rstType = me.tp,
+                searchType = me.cmdNo == 1 ? 's' : 'con';
+            query = searchType + query.slice(query.indexOf('&'), -1);
+            console.log(query);
+            if((rstType == 36 || rstType ==38) && query.indexOf(grString) < 0 ) {
+                query = query + grString;
+            }
+            //更改query中的参数值
+            query = me._updateUrl(query, {
+                db : me.json.result.db,
+                rn : 10,
+                pn : p + 1
+            });
+            go(query, function(json) {
+                var data = json.content;
+                if(!data) {
+                    callback(1);
+                    return;
+                }
+                var mydata = me._formatData(data);
+                setTimeout(function(){
+                    me.rList.add(mydata);
+                },500);
+                me._saveContent(data);  //保存更新数据
+                me.page_num = json.result.page_num;
+                callback(0);  //自动跟新完后调用成功跟新 callback
+            });
+        }*/
+        
+        //添加返回事件
+        event.ongoback = function() {
+            switchIndex.toBtn();
+        }
+    },
+  
+    /**
+    * 更新url中的参数
+    * @param{String} url 需要替换参数的url
+    * @param{Object} opts 替换参数
+    */
+    _updateUrl : function(url, opts) {
+        if(!url || typeof url != "string") {
+            return;
+        } else if (!opts) {
+            return url;
+        }
+        var checkParam = '',
+            regStr = '';
+        for(var p in opts) {
+            checkParam = '&' + p + '=';
+            regStr = '(' + checkParam + ')[^&]*',
+            reg = new RegExp(regStr);
+            if(reg.test(url)) {
+                url = url.replace(reg, '$1' + encodeURIComponent(opts[p]));
+            } else {
+                url = url + checkParam + opts[p];
+            }
+        }
+        return url;
+    },
+  
+    handlerPage : function() {
+        var me = this;
+        var btns = document.querySelectorAll('#pageBox button');
+        me.checkPage();
+        baidu.on(btns[0],'click',function(){
+            if(this.className.indexOf('unclick') > -1) {
+                return false;
+            }
+            var page_num = me.getPageNum();
+            me.changePage(page_num - 1);
+        });
+        baidu.on(btns[1],'click',function(){
+            if(this.className.indexOf('unclick') > -1) {
+                return false;
+            }
+            var page_num = me.getPageNum();
+            me.changePage(page_num + 1);
+        });
+    },
+    /**
+     * 获取翻页数
+     * @return {Number} 返回当前页数
+     */
+    getPageNum : function() {
+        return this.json.result.page_num;
+    },
+
+    /**
+     * 检查首页和末页
+     * @return {none}
+     */
+    checkPage : function() {
+        var me = this,
+            result = me.json.result,
+            pageNum = result.page_num,
+            total = result.total;
+        var btns = document.querySelectorAll('#pageBox button');
+        var curTotal = (parseInt(pageNum) + 1 ) * 10;
+        if(pageNum == 0) {
+            baidu.dom.addClass(btns[0],'unclick');
+        } else {
+            baidu.dom.removeClass(btns[0], 'unclick');
+        }
+        if(curTotal > total || curTotal == total) {
+            baidu.dom.addClass(btns[1], 'unclick');
+        } else {
+            baidu.dom.removeClass(btns[1], 'unclick');
+        }
+    },
+
+    changePage : function(no) {
+        if(typeof no == "undefined" || no < 0) {
+            return;
+        }
+        var me = this;
+        var query = me.modelQuery,
+                p = no,
+                db = "&db=" + me.json.result.db,
+                grString = "&on_gel=1&src=7&gr=3",
+                pars = "&rn=10&pn=" + p + db,
+                rstType = me.tp,
+                searchType = me.cmdNo == 1 ? 's' : 'con';
+        query = searchType + query.slice(query.indexOf('&'));
+        if((rstType == 36 || rstType ==38) && query.indexOf(grString) < 0 ) {
+            query = query + grString;
+        }
+        //更改query中的参数值
+        query = me._updateUrl(query, {
+            //db : me.json.result.db,
+            rn : 10,
+            pn : p
+        });
+        me.ptPoiInd = 0;    //重设poi起始点索引
+        go(query, function(json) {
+            me.renderList(json);
+        });
+    },
+  
+  /**
+   * 翻页事件
+   */
+  /*changePage : function(p) {
+    var me = this;
+    var t = me.tp;
+    var db = "&db=" + me.json.result.db;
+    var grString = "&on_gel=1&src=7&gr=3";
+    var pars = "&c=" + me.sCityCode + "&wd=" + encodeURIComponent(me.wd) + "&rn=10&pn=" + p + db;
+    if(t != 11) {
+      var b= map.getBounds(GRViewMargins);
+    } else {
+      var b= map.getBounds();
+    }
+    var bs = "&b=("+ b.minX +","+ b.minY +";"+ b.maxX +","+ b.maxY +")&l=" + map.zoomLevel;
+    switch (t) {
+      case 11 :
+          var qt = me.cmdNo == 1 ? "s" : "con";
+          var addr = "&addr=0";
+          go(qt + pars + addr, {cinfo : {isClickNextPage : true}});
+          break;
+      case 36 :
+          var qt = me.cmdNo == 1 ? "s" : "con";
+          var addr = "&addr=0";
+          go(qt + pars + addr + grString + bs, {cinfo : {isClickNextPage : true}})
+          break;
+      case 38 :
+          if(me.isRightClickCir) {
+              go("nb&r=2000&nb_x="+me.cinfo.lng+"&nb_y="+me.cinfo.lat+ pars+ grString + bs, {cinfo : {isClickNextPage : true, centerPoint : me.cinfo.centerPoint, name : me.cinfo.name, lng: me.cinfo.lng, lat: me.cinfo.lat}});
+          } else {
+              go("nb&uid=" + me.ctrPoiUid + "&r=2000"+ pars+ grString + bs, {cinfo : {isClickNextPage : true}});
+          }
+          break;
+      case 39 :
+          go("bd" + pars+ grString + bs, {cinfo : {isClickNextPage : true}});
+          break;
+    }
+  },*/
+
+
+  selectBusLine : function(uid, _ind, bol, bol1){
+    var me = this;
+    if(typeof isMapReady == "undefined" || !isMapReady){
+        switchIndex.toMap();
+        setTimeout(function(){
+            me._selectBusLine(uid, _ind, bol, bol1);
+        },100);
+    } else {
+        switchIndex.toMap();
+        me._selectBusLine(uid, _ind, bol, bol1);
+    }
+  },
+
+  // uid 线路id
+  // _ind 线路索引号
+  // bol 是否修改url
+  // bol1 是否需要切换到map区域展现 
+  _selectBusLine : function(uid, _ind, bol, bol1) {
+    var ind = 0;
+    if(addPoiMkrs._onIndex >= 0) {
+      var ic0 = new BMap.Icon("img/markers.png", new BMap.Size(23, 25), {
+          offset: new BMap.Size(12, 25), imageOffset : new BMap.Size(0, 25*addPoiMkrs._onIndex)
+      });
+      poiMarkers[addPoiMkrs._onIndex].cgIcon(ic0);
+      poiMarkers[addPoiMkrs._onIndex].setZIndex("200");
+      ind = addPoiMkrs._onIndex;
+      addPoiMkrs._onIndex = -1;
+    }
+    if(arguments.length > 1 && !bol) {
+      Share.listIndex = ind+"|" + _ind + "|-1";
+      HashMgr.setHash(Share.getLink());
+    }
+
+    this._showBusLine(uid);
+    var me = this;
+    this.setBtnCon();
+    if(!bol1) {
+      var arr = me.getCCArray(1);
+      if(this.isTf()) arr.push("tfCon");
+      CtrMgr.addShow(arr);
+      CtrMgr.show();
+    }
+  },
+  
+  /**
+   * 选择公交线路
+   */
+  selectBus : function(ind, bol) {
+    var c = this._getContent();
+    this.selectBusLine(c[ind].uid);
+    if(!bol)
+      this._setShare(ind);
+  },
+  
+  /**
+   * 选择普通POID点
+   * param {number} 索引号
+   * param {bool} 是否需要增加锚点的记录
+   * param {bool} 是否需要将被选中的点定位到中心
+   */
+  select : function(ind, bol, bol1){
+    var me = this;
+    switchIndex.toMap();
+    me._select(ind, bol, bol1);
+  },
+  
+  /**
+   * 选择普通POID点
+   * param {number} 索引号
+   * param {bool} 是否需要增加锚点的记录
+   * param {bool} 是否需要将被选中的点定位到中心
+   */
+  _select : function(ind, bol, bol1) {
+    var c = this._getContent();
+    if(ind < 0) {
+        this.selectBus(-(ind + 1));
+        return;
+    }
+    switchIndex.toMap();
+    this._clearBusLine();
+    this._showLine(c[ind+ this.ptPoiInd]);
+    if(GRCtr.mkr) {
+      map.removeOverlay(GRCtr.mkr);
+      GRCtr.mkr = null;
+    }
+    iwCon && iwCon.switchTo(0, ind);
+    var me = this;
+    this.setBtnCon();
+    if(!bol1) {
+      if(this.points && this.points[ind]) {
+        GRCtr && GRCtr.setGRF(2000);
+        map.setCenter(this.points[ind]);
+        GRCtr && GRCtr.sendMDRequest();
+      }
+    }
+    if(!bol){
+      var arr = me.getCCArray(1);
+      if(this.isTf()) arr.push("tfCon");
+      CtrMgr.addShow(arr);
+      CtrMgr.show();
+      this._setShare(ind + this.ptPoiInd);
+    }
+  },
+  
+  /**
+   * 显示检索路线
+   */
+  _showLine: function(c){
+    this._clearLine();
+    if(c.ty != GEO_TYPE_LINE) return;
+    var uid = c.uid;
+    var me = this;
+    
+    var suc = function(res){
+      if(!res || res.responseText == "") return;
+      var data = eval('('+res.responseText+')');
+      if (!data || data && !data.content){
+        return;
+      }
+      var geo = parseGeo(data.content.geo);
+      if (geo.type == 2){
+        if (typeof geo.points == "string"){
+          me.normPolylines.push(addRoute(geo.points));
+        } else {
+          for (var i = 0, l = geo.points.length; i < l; i ++){
+            if (!geo.points[i]){
+              continue;
+            }
+            me.normPolylines.push(addRoute(geo.points[i]));
+          }
+        } 
+      }
+    }
+    var b = map.getBounds();
+    var bs = escape("(") + b.minX + "," + b.minY + ";" + b.maxX + "," + b.maxY + escape(")");
+    var pars =  "/?qt=ext&tn=m01&uid=" + uid + "&c=" + me.sCityCode+"&ie=utf=8&l="+map.getZoom()+"&b="+bs+"&t=" + new Date().getTime();
+    baidu.ajax.request(pars, {onsuccess : suc});
+  },
+  
+  addPoints : function() {
+    var c = this._getContent() || [];
+    // 调用自定义覆盖物类，添加marker
+    var cc = [];
+    this.points = [];
+    this._clearMkrs();
+    var showPoisCount = 0;
+    for (var i=0, n=c.length; i<n; i++) {
+      if(c[i].poiType != POI_TYPE_BUSLINE &&
+         c[i].poiType != POI_TYPE_SUBLINE) {
+        var geo = parseGeo(c[i].geo);
+        this.points.push(getPointByStr(geo.points));
+        cc.push(c[i]);
+
+        //记录显示marker个数，如果超过10个点，则不再添加显示
+        showPoisCount ++;
+        if(showPoisCount > 9){
+            break;
+        }
+      }
+    }
+    this.poiContents = cc;
+  },
+  
+  // 添加普通点marker
+  addMarker : function() {
+    var me = this;
+    poiMarkers = addPoiMkrs(me.points);
+    // 调用infowindow控件，显示气泡
+    addPoiMkrs._onIndex = 0;
+    //如果在查看poi详情点时，点击查看地图时调用addMarker
+    //则显示改点信息到infowindow by caodongqing
+    addPoiMkrs._onIndex = 0;
+    iwCon && iwCon.resetIW(0, {json : me.poiContents, giud : me.guid});
+    if(typeof me.showNDtlInd == "number"){
+        setTimeout(function(){
+            iwCon && iwCon.switchTo(0, me.showNDtlInd);
+            delete me.showNDtlInd;
+        },50);
+    }
+  },
+  
+  // 显示泛需求的详情信息
+  showGDtl : function(c) {
+    if(!c) return;
+    if(!c.geo && c.centerPoint) {
+        // 如果是临时点发起的周边请求(例如共享位置点、邮件发起等)，没有uid的情况
+        this.showSPDtl(c);
+      return;
+    }
+    addStat(WLAN_POI_DETAIL); //添加详情页统计 by jican
+    var me = this;
+        var htm = [], htm1 = [];
+    if(c.poiType == POI_TYPE_BUSSTOP) {
+      htm1.push('<span class="titl"><b>'+c.name+'-公交车站</b></span>');
+    } else if(c.poiType == POI_TYPE_SUBSTOP){
+      htm1.push('<span class="titl"><b>'+c.name+'-地铁站</b></span>');
+    } else {
+      htm1.push('<span class="titl"><b>'+c.name+'</b></span>');
+      if(c.addr) htm1.push('<br /><span>'+c.addr+'</span>');
+    }   
+    
+    baidu.g("poiDtl0").innerHTML = htm1.join("");
+    var poiDtl4 = baidu.g("poiDtl4");
+    if(c.tel) {
+      if(c.tel.indexOf(",") > -1) {
+        var tels = c.tel.split(",");
+      } else {
+        var tels = c.tel.split(";");
+      }     
+      var htm01 = ['<div class="mod_tel_content"><div class="tel_icon"><b></b></div><ol class="tel_num">'];
+      for (var ii=0, nn = tels.length; ii<nn; ii++) {
+        var tt = tels[ii].replace(/-/ig, "");
+        if(modelConfig.ua == "android") 
+          htm01.push('<li onclick="TelBox.showTb(\''+tt+'\')">'+tels[ii]+'</li>');
+        else
+           htm01.push('<li><a href="tel:'+tt+'" class="tellink">'+tels[ii]+'</a></li>');
+        
+      }
+      htm01.push('</ol></div>');
+      var poiDtl1 = baidu.g("poiDtl1");
+      poiDtl1.style.display = "block";
+      poiDtl1.innerHTML = htm01.join("");
+    }
+  
+    switch (c.poiType) {
+      case POI_TYPE_BUSSTOP:
+        // baidu.g("poiDtl3").innerHTML = "&nbsp;&nbsp;途经公交车：";
+        var binfos = c.blinfo;
+        htm.push('<div class="title">途经公交车：</div>');
+        htm.push('<ol class="bus_list">');
+        for (var i=0,n=binfos.length; i<n; i++) {
+          htm.push('<li onclick="Instances(\''+this.guid+'\').selectBusLine(\''+binfos[i].uid+'\', '+i+')"><em class="it bs"></em><dl><dt>');
+          htm.push(binfos[i].addr + "（" + binfos[i].name+"）");
+          htm.push('</dt></dl></li>');
+        }
+        htm.push('</ol>');
+        poiDtl4.innerHTML = htm.join("");
+        poiDtl4.style.display = "block";
+        break;
+        // 地铁站
+      case POI_TYPE_SUBSTOP:
+        if(poiDtl4)
+          poiDtl4.innerHTML = "";
+        var b = map.getBounds();
+                var bs = escape("(") + b.minX + "," + b.minY + ";" + b.maxX + "," + b.maxY + escape(")");
+        var pars =  "/?qt=inf&tn=m01&uid="+c.uid+"&c="+me.sCityCode+"&ie=utf=8&l="+map.getZoom()+"&b="+bs+"&t=" + new Date().getTime();
+        var suc = function(res) {
+          if(!res || res.responseText == "") return;
+                    var js = eval('('+res.responseText+')');
+                    if(!js || !js.content) return;
+          if(js.content.ext && poiDtl4) {
+            poiDtl4.innerHTML = me._renderDtStop(js.content.ext);
+          }
+        };
+        poiDtl4.style.display = "block";
+        baidu.ajax.request(pars, {onsuccess : suc});
+        // baidu.g("poiDtl3").innerHTML = "";
+        break;
+        // 普通点
+      default:
+        // baidu.g("poiDtl3").innerHTML = "";
+        baidu.g("poiDtl4").innerHTML = "";
+        break;
+    }
+
+    baidu.g("poiLst").style.display = "none";
+    baidu.g("poiCrl").style.display = "none";
+    baidu.g("poiLineDtl").style.display = "none";
+        baidu.g("poiDtl").style.display = "block";
+    me.ptDtl["wd"] = c.name;
+    me.ptDtl["uid"] = c.uid;
+    me.ptDtl["cc"] = me.sCityCode;
+    var geo = parseGeo(c.geo);
+    me.ptDtl["pt"] = getPointByStr(geo.points);
+    CtrMgr.addShow(["MapInfo"]);
+    CtrMgr.show();
+  },
+  
+  _showBDtl : function(_ind) {
+    var c = this._getContent();
+    this.selectBusLine(c[_ind].uid, _ind, false, true);
+    this._setShare(_ind);
+    if(_ind > -1 && _ind < c.length) {
+      this.showBDtl(c[_ind], 0);
+    }
+  },
+  // 显示线路的详情信息
+  // c路线content
+  // flg=0普通公交线路信息，例如检索13
+  // flg=1公交站的相关线路信息，例如检索西直门，经过西直门的公交
+  // bol : 是否需要切换tab和mkr的显示
+  showBDtl : function(c, flg) {
+      var me = this;
+    addStat(WLAN_POI_DETAIL); //添加详情页统计 by jican
+    //var c = me.json.content[ind];
+    var str = "途经站：";
+    /*if(c.poiType == POI_TYPE_BUSLINE) {
+      str = "途经公交车站：";
+    } else if(c.poiType == POI_TYPE_SUBLINE){
+      str = "途经地铁站：";
+    }*/
+    var b = map.getBounds();
+    var bs = escape("(") + b.minX + "," + b.minY + ";" + b.maxX + "," + b.maxY + escape(")");
+    var pars = "/?qt=bsl&tn=m01&uid="+c.uid+"&c="+me.sCityCode+"&ie=utf=8&l="+map.getZoom()+"&b="+bs+"&t=" + new Date().getTime();
+    var suc = function(res) {
+      if(!res || res.responseText == "") return;
+      var js = eval('('+res.responseText+')');
+      if(!js || !js.content) return;
+      if(js.content[0].stations && baidu.g("poiDtl4")) {
+        baidu.g("poiLineDtl1").innerHTML = me._renderBusInfo(js.content[0]);
+        baidu.g("poiLineDtl3").innerHTML = me._renderBusStop(js.content[0].stations);
+      }
+    };
+    var fal = function() {
+      if(baidu.g("poiLineDtl3")){
+        baidu.g("poiLineDtl1").innerHTML = "";
+        baidu.g("poiLineDtl3").innerHTML = "";
+      }
+    };
+    baidu.ajax.request(pars, {onsuccess : suc, onfailure : fal});
+
+    baidu.g("poiLineDtl0").innerHTML = '<span class="titl"><b>'+c.name+'</b></span>';
+
+    if(flg == 0) {
+      me.ptDtl["wd"] = c.name;
+      me.ptDtl["uid"] = c.uid;
+      me.ptDtl["cc"] = me.sCityCode;
+      var geo = parseGeo(c.geo);
+      me.ptDtl["pt"] = getPointByStr(geo.points);
+    }
+    baidu.g("poiDtl2").style.display = "none";
+    baidu.g("poiLst").style.display = "none";
+    baidu.g("poiCrl").style.display = "none";
+    baidu.g("poiDtl").style.display = "none";
+    baidu.g('poiLineDtl_footer').style.display = "block";
+    baidu.g("poiLineDtl").style.display = "block";
+    fixed.toBottom(baidu.g('poiLineDtl_footer'));
+    CtrMgr.addShow(["MapInfo"]);
+    CtrMgr.show();
+  },
+   // 线路的概述信息：起始时间、票价等等
+  _renderBusInfo : function(line) {
+      var sHtml = [];
+    sHtml.push("<div class='poi_binfo'><table class='line_info_tab' cellpadding='0' cellspacing='0'>");
+      if (line.startTime){
+      sHtml.push("<tr>");
+      sHtml.push("<td>起点站首车时间</td>");
+      sHtml.push("<td>"+line.startTime+"</td>");
+      sHtml.push("</tr>");
+      }
+      if (line.endTime){
+      sHtml.push("<tr>");
+      sHtml.push("<td>起点站末车时间</td>");
+      sHtml.push("<td>"+line.endTime+"</td>");
+      sHtml.push("</tr>");
+      }
+      if (line.maxPrice){
+      sHtml.push("<tr>");
+      sHtml.push("<td>单程最高票价</td>");
+      sHtml.push("<td>"+(line.maxPrice/100).toFixed(2)+"元</td>");
+      sHtml.push("</tr>");
+      }
+      if (line.ticketCal){
+      sHtml.push("<tr>");
+      sHtml.push("<td>票制</td>");
+      sHtml.push("<td>"+line.ticketCal+"</td>");
+      sHtml.push("</tr>");  
+      }
+      if (line.distance){
+      sHtml.push("<tr>");
+      sHtml.push("<td>线路长度</td>");
+      sHtml.push("<td>"+line.distance+"</td>");
+      sHtml.push("</tr>");
+      }
+      sHtml.push("<tr>");
+      sHtml.push("<td>是否月票有效</td>");
+      if(line.isMonTicket == 1){
+      sHtml.push("<td>是</td>");
+      }else{
+      sHtml.push("<td>否</td>");
+      }
+      sHtml.push("</tr>");
+      if (line.company){
+      sHtml.push("<tr>");
+      sHtml.push("<td>所属公司</td>");
+      sHtml.push("<td>"+line.company+"</td>");
+      sHtml.push("</tr>");
+      }      
+    sHtml.push("</table></div>");
+    return sHtml.join("");
+  },
+   // 线路的经过站点信息
+  _renderBusStop : function(stations) {
+    var htmls = [],
+        no = 0;
+    htmls.push('<div class="title">途经站：</div>');
+    htmls.push('<ol class="list s8 stop_list">');
+    for (var i=0,n=stations.length; i<n; i++) {
+        if(i < 9){
+            no = "" + "0" + (i+1);
+        } else {
+            no = (i+1);
+        }
+        htmls.push('<li><em class="no">' + no + '</em><dl><dt>');
+        htmls.push(stations[i].name);
+        //htmls.push('</dt></dl><em class="gt"></em></li>');
+        htmls.push('</dt></dl></li>');
+    }
+    htmls.push('</ol>');
+    return htmls.join('');
+  },
+  
+  
+  _showNDtl : function(ind) {
+    var c = this._getContent();
+    if(ind < 0) {
+        this._showBDtl(-(ind + 1));
+        return;
+    }
+    var poiCon = c[ind + this.ptPoiInd];
+    this._clearBusLine();
+    this._showLine(poiCon);
+    if(GRCtr.mkr) {
+      map.removeOverlay(GRCtr.mkr);
+      GRCtr.mkr = null;
+    }
+    iwCon && iwCon.switchTo(0, ind);
+    this.showNDtlInd = ind;
+    var me = this;
+    me.setBtnCon();   
+    if(me.points && me.points[ind]) {
+      GRCtr && GRCtr.setGRF(2000);
+      map.setCenter(me.points[ind]);
+      GRCtr && GRCtr.sendMDRequest();
+    }
+    me._setShare(me.ptPoiInd + ind);
+    me.showNDtl(ind);
+    
+  },
+  
+  // 普通POI点的详情显示
+  showNDtl : function(ind) {
+    addStat(WLAN_POI_DETAIL); //添加详情页统计 by jican
+    var me = this;
+    var r_Ind = me.ptPoiInd+ind;
+    var c = me._getContent()[r_Ind];
+    var htm = [], htm1 = [];
+    var poiDtl4 = baidu.g('poiDtl4');
+    poiDtl4.style.display = "none";
+    switch (c.poiType) {
+        // 公交站
+      case POI_TYPE_BUSSTOP:
+        // baidu.g("poiDtl3").innerHTML = "&nbsp;&nbsp;途经公交车：";
+        var binfos = c.blinfo;
+        htm.push('<div class="title">途经公交车：</div>')
+        htm.push('<ol class="list s8">');
+        for (var i=0,n=binfos.length; i<n; i++) {
+          htm.push('<li onclick="Instances(\''+this.guid+'\').selectBusLine(\''+binfos[i].uid+'\', '+i+')"><em class="it bs"></em><dl><dt>');
+          htm.push(binfos[i].addr + "（" + binfos[i].name+"）");
+          htm.push('</dt></dl></li>');
+        }
+        htm.push('</ol>');
+        poiDtl4.innerHTML = htm.join("");
+        poiDtl4.style.display = "block";
+        htm1.push('<span class="titl"><b>'+c.name+' - 公交车站</b></span>');
+        break;
+        // 地铁站
+      case POI_TYPE_SUBSTOP:
+        if(poiDtl4)
+              poiDtl4.innerHTML = "";
+        var b = map.getBounds();
+                var bs = escape("(") + b.minX + "," + b.minY + ";" + b.maxX + "," + b.maxY + escape(")");
+        var pars =  "/?qt=inf&tn=m01&uid="+c.uid+"&c="+me.sCityCode+"&ie=utf=8&l="+map.getZoom()+"&b="+bs+"&t=" + new Date().getTime();
+        var suc = function(res) {
+          if(!res || res.responseText == "") return;
+                    var js = eval('('+res.responseText+')');
+                    if(!js || !js.content) return;
+          if(js.content.ext && poiDtl4) {
+            poiDtl4.innerHTML = me._renderDtStop(js.content.ext);
+            poiDtl4.style.display = "block";
+          }
+        };
+        baidu.ajax.request(pars, {onsuccess : suc});
+        // baidu.g("poiDtl3").innerHTML = "";
+        htm1.push('<span class="titl"><b>'+c.name+' - 地铁站</b></span>');
+        break;
+        // 普通点
+      default:
+        // baidu.g("poiDtl3").innerHTML = "";
+        poiDtl4.innerHTML = "";
+        htm1.push('<span class="titl"><b>'+c.name+'</b></span>');
+        if(c.addr) htm1.push('<br /><span>'+c.addr+'</span>');
+        break;
+    }
+    baidu.g("poiDtl0").innerHTML = htm1.join("");
+    if(c.tel) {
+      if(c.tel.indexOf(",") > -1) {
+        var tels = c.tel.split(",");
+      } else {
+        var tels = c.tel.split(";");
+      } 
+      var htm01 = ['<div class="mod_tel_content"><div class="tel_icon"><b></b></div><ol class="tel_num">'];
+      for (var ii=0, nn = tels.length; ii<nn; ii++) {
+        var tt = tels[ii].replace(/-/ig, "");
+        if(modelConfig.ua == "android") 
+          htm01.push('<li onclick="TelBox.showTb(\''+tt+'\')">'+tels[ii]+'</li>');
+        else
+          htm01.push('<li><a href="tel:'+tt+'" class="tellink">'+tels[ii]+'</a></li>');
+      }
+      htm01.push('</ol></div>');
+      var poiDtl1 = baidu.g("poiDtl1");
+      poiDtl1.style.display = "block";
+      poiDtl1.innerHTML = htm01.join("");
+    }
+
+    if (c.ext 
+        && me.placeRule[c.ext.src_name] != "undefined")
+        {
+            me.showPlaceDtl(c.uid);
+    }
+
+    me.hidePlaceInfo();
+    baidu.g("poiDtl2").style.display = "block";
+    baidu.g("poiLst").style.display = "none";
+    baidu.g("poiCrl").style.display = "none";
+    baidu.g("poiLineDtl").style.display = "none";
+    baidu.g("poiDtl").style.display = "block";
+    baidu.g('poiDtl_footer').style.display = "block";
+    me.ptDtl["wd"] = c.name;
+    me.ptDtl["uid"] = c.uid;
+    me.ptDtl["cc"] = me.sCityCode;
+    var geo = parseGeo(c.geo);
+    me.ptDtl["pt"] = getPointByStr(geo.points);
+    window.scrollTo(0,0);
+    fixed.toBottom(baidu.g('poiDtl_footer'));
+    CtrMgr.addShow(["MapInfo"]);
+    CtrMgr.show();
+  },
+   /**
+   * 地铁站详情信息
+   */
+  _renderDtStop : function(ext){
+    var htmls = [];
+    var lines=[];
+    for (var i = 0; i < ext.line_info.length; i ++){
+      var o = ext.line_info[i];
+      if(o.first_time == "" && o.last_time == ""){
+        lines.push("0");
+      }
+    }
+    if(ext.line_info.length===lines.length){
+      return '';
+    }
+    if (ext.line_info){
+      htmls.push('<table cellpadding="0" cellspacing="0" class="ss_time_info ' + this._getCCode() + '">');
+      htmls.push('<thead><tr><th class="col_dirt">行驶方向</th><th class="col_time">首班车</th><th class="col_time">末班车</th></tr></thead><tbody>');
+      for (var i = 0, l = ext.line_info.length; i < l; i ++){
+        var curInfo = ext.line_info[i];
+        if (curInfo.first_time == "" && curInfo.last_time == ""){
+          continue;
+        }
+        htmls.push('<tr><td class="col_dirt"><em class="l_' + this._getLCode(curInfo.line_name) + '" ></em>');
+        htmls.push('到' + curInfo.terminals + '</td>');
+        htmls.push('<td>' + (curInfo.first_time || "&minus;&minus;:&minus;&minus;") + '</td><td>' + (curInfo.last_time || "&minus;&minus;:&minus;&minus;") + '</td></tr>');
+      }
+      htmls.push('</tbody></table>');
+    }
+    if (ext.around_info){
+      for (var i = 0, fst = true, l = ext.around_info.length; i < l; i ++){
+        if (ext.around_info[i].constructor == Object && ext.around_info[i].exit_name){
+          htmls.push("<div class='substop_detail mt" + (fst == true ? "10" : "5 hasTB") + "'>");
+          htmls.push("<div class='ss_exit_" + i + "'></div>");
+          htmls.push("<table cellspacing='0' cellpadding='2'>");
+          if (ext.around_info[i].exit_round){
+            htmls.push("<tr><td class='ss_round'><div></div></td><td>" + ext.around_info[i].exit_round.replace(/,/g, "<br />") + "</td></tr>");
+          }
+          if (ext.around_info[i].bs_info){
+            var bsinfo = ext.around_info[i].bs_info.replace(/;/g, "<br />").replace(/,/g, ", ");
+            htmls.push("<tr><td class='ss_busstop'><div></div></td><td class='ss_busstop_t'>" + bsinfo + "</td></tr>");
+          }
+          htmls.push("</table></div>");
+          fst = false;
+        }
+        else if (ext.around_info[i].constructor == Array){
+          for (var j = 0, ll = ext.around_info[i].length; j < ll; j ++){
+            if (!ext.around_info[i][j].exit_name){
+              continue;
+            }
+            htmls.push("<div class='substop_detail mt" + (fst == true ? "10" : "5 hasTB") + "'>");
+            htmls.push("<div class='ss_exit_" + i + "_" + j + "'></div>");
+            htmls.push("<table cellspacing='0' cellpadding='2'>");
+            if (ext.around_info[i][j].exit_round){
+              htmls.push("<tr><td class='ss_round'><div></div></td><td>" + ext.around_info[i][j].exit_round.replace(/,/g, "<br />") + "</td></tr>");
+            }
+            if (ext.around_info[i][j].bs_info){
+              var bsinfo = ext.around_info[i][j].bs_info.replace(/;/g, "<br />").replace(/,/g, ", ");
+              htmls.push("<tr><td class='ss_busstop'><div></div></td><td class='ss_busstop_t'>" + bsinfo + "</td></tr>");
+            }
+            htmls.push("</table></div>");
+            fst = false;
+          }
+        }
+      } 
+    }
+    return htmls.join("");
+  },
+
+    /**
+    * 隐藏place信息
+    */
+    hidePlaceInfo : function () {
+        var placeMod = ["placeInfo", "placeDtl", "placeComment", "siteLink"];
+        var dom = {};
+        for(var i = 0, len = placeMod.length; i < len; i++) {
+            dom = baidu.g(placeMod[i]);
+            if(!!dom) {
+                dom.style.display = "none";
+            }
+        }
+    },
+  
+  _getCCode : function(){
+    if (this.sCityName.indexOf("北京") > -1){
+      return "bj";
+    }
+    if (this.sCityName.indexOf("上海") > -1){
+      return "shh";
+    }
+    if (this.sCityName.indexOf("广州") > -1){
+      return "gzh";
+    }
+    return "nsupport";
+  },
+  
+  _getLCode : function(lname){
+    var curLCode = "";
+    lname = lname.replace("地铁", "").replace(/\(.+\)$/, "");
+    if (lname.match(/\d+/) && lname.match(/\d+/).length > 0){
+      curLCode = lname.match(/\d+/)[0];
+    }
+    if (this.sCityName.indexOf("北京") > -1){
+      if (lname.indexOf("八通") > -1){
+        curLCode = "8t";
+      }
+      else if (lname.indexOf("机场") > -1){
+        curLCode = "air";
+      }
+    }
+    else if (this.sCityName.indexOf("上海") > -1){
+      if (lname.indexOf("磁悬浮") > -1){
+        curLCode = "cxf";
+      }
+    else if (lname.indexOf("支") > -1 && lname.indexOf("11") > -1){
+        curLCode = "11z";
+      }
+    }
+    else if (this.sCityName.indexOf("广州") > -1){
+      if (lname.indexOf("支") > -1 && lname.indexOf("3") > -1){
+        curLCode = "3z";
+      }
+    }
+    return curLCode;
+  },
+  /**
+   * 请求公交线路数据
+   * @param String 公交线路的uid
+   */
+  _showBusLine : function(uid){
+    var me = this;
+    // 移除上次的覆盖物
+    this._clearBusLine();
+    this._clearLine();
+   // this._clearArea();
+    this.curBslUid = uid;
+    var cb = function(res) {
+      // 绘制线路
+          var data;
+          try{
+            eval("data=" + res.responseText);
+          } catch(e) {
+            return;
+          }
+          if (!data || data && !data.content){
+            return;
+          }
+          var c = data.content[0];
+          if (c.uid != me.curBslUid){
+            return;
+          }
+      iwCon && iwCon.resetIW(2, {json : [c], guid : this.guid});
+      iwCon && iwCon.switchTo(2, 0);
+          me._drawBusLine(c);
+    }
+    var pars =  "/?qt=bsl&bsltp=1&tn=m01&uid=" + uid + "&c=" + me.sCityCode + "&t=" + new Date().getTime();
+    baidu.ajax.request(pars, {onsuccess : cb});
+  },
+  
+  /**
+   * 绘制公交线路, 添加站点
+   */
+  _drawBusLine : function(c){
+    var me = this;
+    var lineData = parseGeo(c.geo);
+    if (lineData && lineData.type == 2) {
+      me.busPolylines.push(addRoute(lineData.points, ROUTE_TYPE_BUS));
+    }
+    // 添加站点
+    if (!c || c && !c.stations){
+      return;
+    }
+    var sta = me.curStops = c.stations;
+    me.stationPoints = [];
+    me.busStopPois = [];
+    me.stationTips = [];
+  
+    for (var j = 0, l = sta.length; j < l; j ++){
+          var geo = parseGeo(sta[j].geo);
+          if (geo.type == 1){
+            // 站点气泡
+            var bspoi = addBusStopPoi(geo.points);
+            me.busStopPois.push(bspoi);
+            me.stationPoints.push(getPoiPoint(geo.points));
+          }
+      }
+      //map.getBestMap(me.stationPoints, 10);
+    window.GRCtr && GRCtr.setGRF(2000);
+    map.setCenter(me.stationPoints[0]);
+    window.GRCtr && GRCtr.sendMDRequest();
+  },
+  
+  /**
+   * 清除当前显示的公交线路及站点
+  */
+  _clearBusLine : function(){
+    if (this.busPolylines){
+      for (var i = 0, l = this.busPolylines.length; i < l; i ++){
+        removeRoute(this.busPolylines[i]);
+        this.busPolylines[i] = null
+      }
+      this.busPolylines.length = 0;
+    }
+    for (var i = 0; i < this.busStopPois.length; i ++){
+      if (this.busStopPois[i]){
+        this.busStopPois[i].remove();
+        this.busStopPois[i] = null;
+        map.removeOverlay(this.stationTips[i]);
+      }
+    }
+    this.busStopPois.length = 0;
+    this.stationPoints.lengtn = 0;
+    this.curStopSelIndex = -1;
+    //this._setShareSelIndex(this.curSelIndex);
+  },
+  
+  _clearMkrs : function() {
+    if(poiMarkers) {
+      for (var i=0,n=poiMarkers.length ; i<n; i++) {
+        map.removeOverlay(poiMarkers[i]);
+        poiMarkers[i].dispose();
+      }
+      poiMarkers = null;
+    }
+    addPoiMkrs._onIndex = -1;
+    var me = this;
+    me.centerPt = null;
+    me.poiContents  = null;
+    if(me.centerPoi) {
+      map.removeOverlay(me.centerPoi);
+      me.centerPoi = null;
+    }
+  },
+  
+  /**
+   * 清除路线
+  */
+  _clearLine : function(){
+    for (var i = 0, l = this.normPolylines.length; i < l; i ++){
+      removeRoute(this.normPolylines[i]);
+      this.normPolylines[i] = null;
+    }
+    this.normPolylines.length = 0;
+  },
+  
+  showMap : function(flg) {
+    addStat(WLAN_POI_SHOWMAP); //添加POI详情页查看地图统计 by jican
+    var me = this;
+    switchIndex.toMap();
+    if(!me.isInit){
+        me.initPoiMap(flg);
+    }
+    
+    if(flg == 1){
+        addStat(DTL_VIEW_MAP);              //详情页点击查看地图统计  by caodongqing
+    }
+
+    if(flg == 1 && this.ptDtl && this.ptDtl["pt"]) {
+      window.GRCtr && GRCtr.setGRF(2000);
+      map.setCenter(this.ptDtl["pt"]);
+      window.GRCtr && GRCtr.sendMDRequest();
+    }
+    this.setBtnCon();
+    var arr = me.getCCArray(1);
+    if(this.isTf()) arr.push("tfCon");
+    CtrMgr.addShow(arr);
+    CtrMgr.show();
+  },
+  
+  backIndex : function(){
+    switchIndex.toBtn();
+  },
+  
+  back : function() {
+        //this._clearBusLine();
+    //this._clearMkrs();
+        //sbCon.switchTab(0);
+    var me = this;
+    this.setBtnCon();
+
+    var arr = me.getCCArray(1);
+    if(this.isTf()) arr.push("tfCon");
+    CtrMgr.addShow(arr);
+    CtrMgr.show();
+  },
+  
+  back1 : function() {
+    /*var f = function() {
+      CtrMgr.addShow(["MapInfo"]);
+      CtrMgr.show();
+    }
+    btnCon.setClick(f);
+    CtrMgr.addShow(["MapHolder", "infoWin", "geoLoc", "menuCon", "sivCon", "btnCon"]);
+    CtrMgr.show();*/
+    
+    //this._clearBusLine();
+    baidu.g("poiCrl").style.display = "none";
+        baidu.g("poiDtl").style.display = "none";
+    baidu.g("poiLineDtl").style.display = "none";
+        baidu.g("poiLst").style.display = "block";
+    setTimeout(function() {
+      window.scrollTo(0, 0);
+    }, 100);
+  },
+  
+  back2 : function() {
+        var me = this;
+    this.setBtnCon();
+    CtrMgr.addShow(["MapHolder", "infoWin", "geoLoc", "menuCon", "sivCon", "btnCon", "zInCon", "zOutCon"]);
+    CtrMgr.show();
+    /*baidu.g("poiCrl").style.display = "none";
+        baidu.g("poiLst").style.display = "none";
+    baidu.g("poiLineDtl").style.display = "none";
+        baidu.g("poiDtl").style.display = "block";*/
+  },
+  
+  fromHere : function() {
+        addStat(WLAN_POI_FHERE); //添加POI从这里出发统计 by jican
+    sbCon.switchTab(1, {start : this.ptDtl});
+    //this._clearBusLine();
+    //this._clearMkrs();
+    //GRCtr.clearCache();
+    switchIndex.toBtn();
+  },
+  
+  getHere : function() {
+        addStat(WLAN_POI_GHERE); //添加POI到这里去统计 by jican
+        sbCon.switchTab(1, {end : this.ptDtl});
+    //this._clearBusLine();
+    //this._clearMkrs();
+    //GRCtr.clearCache();
+    switchIndex.toBtn();
+  },
+  
+  /**
+  //注释原因： 新首页后更改周边搜索直接跳转到新首页
+  //原有周边检索组件暂时不需要了
+  //考虑有可能pm修改策略，建议暂时保留 by caodongqing 2012-1-17
+  circleSch : function() {
+    addStat(WLAN_POI_NSCH); //添加POI附近查找统计 by jican
+    var j = {cityid : this.sCityCode, pt :  this.ptDtl["pt"], name : this.ptDtl["wd"]};
+    // 是否有UID的传入。例如无UID的周边请求时，不传入uid参数
+    if(this.ptDtl["uid"]) {
+         j.uid = this.ptDtl["uid"];
+    }
+    SivPage.setCenter(j);
+    SivPage.setPage(1);
+    return;
+  },*/
+    circleSch : function() {
+        addStat(DTL_CICRLE_SEARCH);             //详情页周边检索统计  by caodongqing
+        var cur = this.json.current_city;
+        //设置当前城市;
+        locationBar.setCity(cur.code,cur.name,{type:cur.type});
+        locationBar.setPoi(this.ptDtl.pt,{
+            name:this.ptDtl.wd,
+            uid:this.ptDtl.uid
+        });
+        sbCon.switchTab(0);
+        switchIndex.toBtn();
+    },
+
+  /**
+   * 保存当前选择索引
+   * @param Number  主索引
+   */
+  _setShare : function(i) {
+      Share.listIndex = i+"|-1|-1";
+    HashMgr.setHash(Share.getLink());
+  },
+  
+  _getShare : function() {
+    var me = this;
+      if (me.cinfo && me.cinfo._index) {
+      if(me.cinfo._index.indexOf("uid,") >= 0) return true;
+      var _inds  = me.cinfo._index.split("|");
+      var i = parseInt(_inds[0], 10);
+      if((i+1) > this.ptPoiInd) { 
+        var ii = parseInt(_inds[1], 10);
+        if(ii >= 0) {
+          me.selectBusLine(me._getContent()[i].blinfo[ii].uid, ii, true);
+        } else {          
+          me.select(i, true);
+        }
+      } else {
+        me.selectBus(i, true);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  },
+  
+  _f : function() {
+    this.rList.show();
+    baidu.g("poiCrl").style.display = "none";
+    baidu.g("poiDtl").style.display = "none";
+    baidu.g("poiLineDtl").style.display = "none";
+    baidu.g("poiLst").style.display = "block";
+    CtrMgr.addShow(["MapInfo"]);
+    CtrMgr.show();
+  },
+  
+   // 额外需要添加的项目,array
+  getCCArray : function(no) {
+        var arr = null;
+    switch (no) {
+      case 0:
+        return ["MapHolder", "searchBox", "geoLoc", "menuCon", "zInCon", "zOutCon", "switch_btn"];
+        break;
+      case 1:
+          arr = ["MapHolder", "infoWin", "geoLoc", "menuCon", "zInCon", "zOutCon", "switch_btn"];
+          if(!this.isSharePoi) {
+            arr.push("btnCon");
+        }
+        return arr;
+        break;
+      case 2:
+        arr = ["MapHolder", "searchBox", "geoLoc", "menuCon", "zInCon", "zOutCon", "switch_btn"];
+        if(!this.isSharePoi) {
+            arr.push("btnCon");
+        }
+        return arr;
+        break;
+    }
+  },
+  
+  setBtnCon : function() {
+    var me = this;
+      var f = function() {
+      me._f();
+    }
+    window.btnCon.setContent("<div class='bl_btn btnVR'></div>");
+    window.btnCon.setClick(f);
+  },
+  
+  isTf : function() {
+      if(need2ShowTraffic() && TrafficMap.isOn) 
+      return true;
+    else 
+      return false;
+  },
+   
+  /**
+   * 主动请求加载数据的方法
+   * @param String 请求字符串
+   * @returns 请求字符串
+  */
+  loadData : function(req) {
+    if(req.indexOf("act=read_share") >= 0){
+      // 贡献点url
+      return req;
+    }
+    // 解析url，用于右键周边检索的获取url，通过url判断周边检索
+    var surl = decodeURIComponent(req);
+    if (surl.indexOf("nb") >= 0){
+      if (!this.cinfo){
+        this.cinfo = {};
+      }
+      this.cinfo.isRightClickCir =true;
+      this.isnbSearch = true;
+      var tempa = surl.split(("&"));
+      var tmpCenPoint = [];
+      for (var i = 0, l = tempa.length; i < l; i ++){
+        if (tempa[i].indexOf("ar=") == 0){
+          var tempc = tempa[i].substring(4);
+          var cx1 = parseFloat(tempc.split(";")[0].split(",")[0]);
+          var cy1 = parseFloat(tempc.split(";")[0].split(",")[1]);
+          var cx2 = parseFloat(tempc.split(";")[1].split(",")[0]);
+          var cy2 = parseFloat(tempc.split(";")[1].split(",")[1]);
+          this.cinfo.centerPoint = new BMap.Point((cx1 + cx2) / 2, (cy1 + cy2) / 2);
+          this.centerPt = this.cinfo.centerPoint;
+        }
+        if (tempa[i].indexOf("nb_x=") == 0){
+          var tempc = tempa[i].substring(5);
+          tmpCenPoint[0] = tempc;
+        }
+        if (tempa[i].indexOf("nb_y=") == 0){
+          var tempc = tempa[i].substring(5);
+          tmpCenPoint[1] = tempc;
+        }
+      }
+      if(tmpCenPoint[0] && tmpCenPoint[1]) {
+        this.centerPt = this.cinfo.centerPoint = new BMap.Point(tmpCenPoint[0], tmpCenPoint[1]);
+      }
+    }
+    return req;
+  },
+   
+  /**
+   * 共享点请求下的操作，添加mkr，设置信息窗
+  */
+  addSharePoi : function() {
+    if(!this._getContent().point) return;
+        var geo = this._getContent().point.split("|");;
+        var spPt = new BMap.Point(geo[0], geo[1]);
+    map.setCenter(spPt);
+      addSPMarker(spPt, this.json);
+    window.iwCon && iwCon.resetIW(7, {json : this.json});
+        if(sbCon.isOn && !iwCon.isOn) {
+            sbCon.hide();
+            iwCon.show();
+        }
+        chgPoiMkrs(-1);
+        if(GRCtr.mkr) {
+      map.removeOverlay(GRCtr.mkr);
+      GRCtr.mkr = null;
+    }
+  },
+   /**
+    * 显示临时点发起的请求后，点击信息窗显示的详细页
+  * 临时点，指没有uid的点，例如共享位置点和右键点
+  * c 的数据格式大致如 {
+  *     centerPoint : new Point(),
+  *     name : "百度大厦",
+  *     addr : "海淀区上地十街十号"
+  *  }
+  */
+  showSPDtl : function(c) {
+    /**
+     * 如果存在content字段，则说明该数据来自于共享位置点的数据，需要把数据规整格式
+     * 共享位置点的数据格式如下为 
+     * {
+     *   content : { 
+     *     cityCode : 131,
+     *     content : "海淀区上地十街十号",
+     *     cur : 11,
+     *     fav : 0,
+     *     point : "12947518.92|4846468.32",
+     *     save : 1,
+     *     show : 1,
+     *     title : "百度大厦"
+     *   },
+     *   result : 1
+     * }
+    */
+    if(c && 
+       c.content &&
+       c.content.point) {
+          var geo = c.content.point.split("|");
+          c.centerPoint = new BMap.Point(geo[0], geo[1]);
+              if(!!c.content.title) {
+            c.name = c.content.title;
+        }
+        if(!!c.content.content) {
+            c.addr = c.content.content;
+        }
+    }
+    if(!c || !c.centerPoint) return;
+    var me = this;
+        var htm = [], htm1 = [];
+      htm1.push('<span class="titl"><b>'+(!!c.name ? c.name : '好友分享的点')+'</b></span>');
+    if(!!c.addr){
+         htm1.push('<br /><span>'+c.addr+'</span>');
+      }   
+    baidu.g("poiDtl0").innerHTML = htm1.join("")
+    // baidu.g("poiDtl3").innerHTML = "";
+    baidu.g("poiDtl4").innerHTML = ""; 
+
+        baidu.g("poiLst").style.display = "none";
+    baidu.g("poiCrl").style.display = "none";
+    baidu.g("poiLineDtl").style.display = "none";
+        baidu.g("poiDtl").style.display = "block";
+
+        me.ptDtl["wd"] = c.name;
+    me.ptDtl["uid"] = null;
+    me.ptDtl["cc"] = me.sCityCode;
+    me.ptDtl["pt"] = c.centerPoint;
+    CtrMgr.addShow(["MapInfo"]);
+    CtrMgr.show();
+  },
+    /**
+    * 设置我的位置
+    */
+    setMyPosition : function() {
+        var me = this;
+        go("tpl:SetMyLocation?" + "&refer_modelQuery=" + encodeURIComponent(me.modelQuery));
+    },
+    /**
+     * 显示详情页信息
+     * @param{String} uid poi点uid信息
+     */
+    showPlaceDtl : function(uid) {
+        if(typeof(uid) != "string") {
+            return;
+        }
+        var me = this;
+        go("inf&uid=" + uid, function(json){
+           me._renderPlaceInfo(json);
+        });
+    },
+
+    /**
+     * 渲染place数据
+     * @param  {Object} json place点详情数据
+     */
+    _renderPlaceInfo : function(json) {
+        if(typeof json != "object") {
+            return;
+        }
+        var me = this;
+
+        me.setPlaceData(json);
+        me._showMore();
+    },
+
+    /**
+     * 获取缩略图开发
+     * @param {String} src 图片原地址
+     * @return {String}
+     */
+    getThumbUrl : function(src) {
+        if(typeof src != "string" || src == "") {
+            return "../resource/" + deviceType + "/img/no_img.png";
+        }
+        var dCfg = this.deviceConfig;
+        var url = this.thumbUrl + "?width=" + dCfg.imgWidth + "&height=" + dCfg.imgHeight + "&src=" + encodeURIComponent(src);
+        return url;
+    },
+
+    /**
+     * 设置模版变量函数
+     */
+    setPlaceData : function (json) {
+        var me = this,
+            poiData = json.content,
+            ext = poiData.ext || null,
+            comConfig = me.config.common;
+        
+        var plConfig = me.getPlConfig(ext.src_name);
+        if(!plConfig) {
+            return;
+        }
+        me.plConfig = plConfig;
+        var detailCfg = plConfig.detail_info,
+            richCfg = plConfig.rich_info,
+            ratingCfg = plConfig.rating,
+            reviewCfg = comConfig.review,
+            richRank = plConfig.rich_infoRank,
+            ratingRank = plConfig.ratingRank;
+
+        //获取详情信息
+        var detail_info = me.getValueToData(ext.detail_info,detailCfg);
+
+        //计算评分星星宽度
+        var starWidth = parseInt(detail_info.overall_rating*10)/10* me.deviceConfig.oneStarW;
+        detail_info.starWidth = starWidth;
+
+        //获取行业相关评分
+        var rating = me.getValueToData(ext.detail_info,ratingCfg);
+        rating = me.setObjToArray(rating, ratingRank);
+        detail_info.rating = rating;
+
+        //设置缩略图路径
+        detail_info.image = me.getThumbUrl(detail_info.image);
+
+        me.renderDtlInfo(detail_info);
+        //获取评论信息
+        var review = formatData(ext.review,{filter:reviewCfg});
+        me.renderReview(review);
+        //获取详细信息
+        var rich_info = me.getValueToData(ext.rich_info,richCfg);
+        rich_info = me.setObjToArray(rich_info, richRank);
+        me.renderRichInfo(rich_info);
+        //获取外链站信息
+        var url = me.getCoopSiteUrl(ext.rich_info.reservation_url);
+        me.renderSiteLink(url);
+    },
+
+    /**
+     * 渲染详情信息
+     * @param  {Object} data 详情数据
+     */
+    renderDtlInfo : function(data) {
+        var me = this,
+            tpl = '<div class = "dtl_img">\
+                        <img src="#image#" alt=""/>\
+                    </div>\
+                    <div class="dtl_plinfo_con">\
+                        <div class="dtl_plinfo_item dtl_score">\
+                            <span class="star_box_l">\
+                                <span class ="star_scroe" style="width:#starWidth#px"></span>\
+                            </span>\
+                            <strong class="dtl_no">#overall_rating#</strong>\
+                        </div>\
+                        <div class="dtl_plinfo_item">\
+                            #ratings#\
+                        </div>\
+                        <div class="dtl_plinfo_item">\
+                            <span>参考价</span>\
+                            <strong class="dtl_price">￥#price#</strong>\
+                        </div>\
+                    </div>',
+            placeInfo = baidu.g("placeInfo"),
+            ratings = [];
+        for (var i = data.rating.length - 1; i >= 0; i--) {
+            ratings.push('<span>' + data.rating[i].name + '：' + data.rating[i].value + '</span>&nbsp;');
+        };
+        data.ratings = ratings.join('');
+        tpl = ResultList.prototype.replaceHash.call(ResultList.prototype, tpl , data, true);
+        placeInfo.innerHTML = tpl;
+        placeInfo.style.display = "block";
+    },
+
+    /**
+     * 渲染评论信息
+     * @param  {Array} obj 评论数据
+     */
+    renderReview : function(obj) {
+        var me = this,
+            placeComment = baidu.g('placeComment'),
+            tpl = me.tpl.infoMod,
+            listData = [];
+
+        for (var i = 0, len = obj.length; i < len; i++) {
+            listData.push('<li>\
+                            <p class="limited_size" maxSize = "30">' + (i+1) + '.' + obj[i].info + '</p>\
+                            <p class="from_site"><a href="' + obj[i].url + '" target="_blank">来自' + obj[i].cn_name + '</a></p>\
+                        </li>');
+            
+        };
+        var data = {
+            title : "评论信息",
+            modListData : listData.join('')
+        }
+        tpl = ResultList.prototype.replaceHash.call(ResultList.prototype, tpl , data, true);
+        placeComment.innerHTML = tpl;
+        placeComment.style.display = "block";
+
+    },
+
+    /**
+     * 渲染详细信息
+     * @param  {Array} obj 详细信息数据
+     */
+    renderRichInfo : function(obj) {
+        var me = this,
+            placeDtl = baidu.g('placeDtl'),
+            tpl = me.tpl.infoMod,
+            listData = [];
+        
+        for(var i = 0, len = obj.length; i < len; i++) {
+            listData.push('<li>\
+                        <p class="limited_size" maxSize = "18">\
+                            <span class="li_title">'+ obj[i].name+':</span>\
+                            '+ obj[i].value +'\
+                        </p>\
+                    </li>');
+        }
+        var data = {
+            title : "详细信息",
+            modListData : listData.join('')
+        }
+        tpl = ResultList.prototype.replaceHash.call(ResultList.prototype, tpl , data, true);
+        placeDtl.innerHTML = tpl;
+        placeDtl.style.display = "block";
+
+
+    },
+
+    renderSiteLink : function(obj) {
+        var me = this,
+            siteLink = baidu.g('siteLink'),
+            tpl = me.tpl.infoMod,
+            listData = [];
+
+        for(var i = 0, len = obj.length; i < len; i++) {
+            listData.push('<li>\
+                            <span class ="site_logo ' + obj[i].logo +'"></span>\
+                            <a href="' + obj[i].url +'" target="_blank">' + obj[i].name +'</a>\
+                        </li>');
+        }
+        var data = {
+            title : "查看更多",
+            modListData : listData.join('')
+        }
+        tpl = ResultList.prototype.replaceHash.call(ResultList.prototype, tpl , data, true);
+        siteLink.innerHTML = tpl;
+        siteLink.style.display = "block";
+    },
+
+    /*renderModList : function(id,title,tpl) {
+        var me = this,
+            wrapper = baidu.g(id),
+            modTpl = me.tpl.infoMod,
+            temp = '',
+            listData = [];
+
+        for(var i = 0, len = obj.length; i < len; i++) {
+            temp = ResultList.prototype.replaceHash.call(ResultList, tpl , obj[i]);
+            listData.push(temp);
+        }
+        var data = {
+            title : title,
+            modListData : listData.join('')
+        }
+        tpl = ResultList.prototype.replaceHash.call(me, tpl , data);
+        wrapper.innerHTML = tpl;
+        wrapper.style.display = "block";
+    },*/
+
+    /**
+     * 显示更多信息
+     */
+    _showMore : function() {
+        var limitedItems = document.getElementsByClassName("limited_size");
+        var item = {},
+            oHeight = 0,
+            sHeight = 0,
+            size = 0,
+            more = '<strong class="more" onclick = "Instances(\'' + this.guid  + '\').expendMore(this)">更多 <b></b></strong>',
+            hiddenWord = '<span class = "li_title more_word">#word#</span>',
+            showWord = '<span class = "li_title show_word">#word#</span>',
+            hw = sw = '';
+            text = '';
+        for (var i = limitedItems.length - 1; i >= 0; i--) {
+            item = limitedItems[i];
+            oHeight = item.offsetHeight;
+            sHeight = item.scrollHeight;
+            size = item.getAttribute('maxSize') || 0;
+            if(sHeight > oHeight) {
+                baidu.addClass(item, "limited_close");
+                item.setAttribute('data', text);
+                text = item.innerText;
+                hw = hiddenWord.replace('#word#', text);
+                sw = showWord.replace('#word#', text.slice(0,size))
+                item.innerHTML = sw + hw + more;
+            }
+        };
+    },
+
+    /**
+     * 设置模版数据
+     * @param {obj} obj 模版数据
+     */
+    setToTmplData : function(obj) {
+        if(!obj) {
+            return;
+        }
+        var me = this,
+            tmplData = me._tmplData,
+            value;
+        
+        for(var p in obj) {
+            value = obj[p];
+            tmplData[p] = value;
+        }
+    },
+    /**
+     * 获取place配置
+     * @param  {String} type place行业类型
+     * @return {Object}
+     */
+    getPlConfig : function(type) {
+        if(typeof type != "string") {
+            return;
+        }
+        return this.config[type];
+    },
+
+    /**
+     * 获取参数
+     * @param{Object} oridata 原始数据
+     * @param{Array} filter 需要获取的变量名数组
+     * @param{Boolen} isClearEmpty 可选 是否删除空数据 默认为true
+     */
+    getValueToData : function (oridata, filter, isClearEmpty) {
+        if(!oridata && !filter && typeof filter != "object") {
+            return;
+        }
+        var me = this,
+            name = '',
+            value = '',
+            data = {},
+            isClear = isClearEmpty === "false" ? false : true;
+        if(toString.apply(filter) === '[object Array]') {
+            for (var i = filter.length - 1; i >= 0; i--) {
+                name = filter[i];
+                if(!!oridata[name]) {
+                    data[name] = me.formatBlank(oridata[name]);
+                }
+            };
+        } else {
+            for(var p in filter) {
+                value = oridata[p];
+                if(isClear && value === '') {
+                    continue;
+                }
+                data[p] = filter[p];
+                data[p].value = me.formatBlank(value);
+            }
+        }
+        return data;
+    },
+
+    /**
+     * 把对象数据转化为数组
+     * @param{Object} obj 需要转化的对象
+     * @param{Array} rank 可选 输出排序
+     * @return{Array} 返回转换后的数组
+     */
+    setObjToArray : function(obj, rank) {
+        if(typeof obj !== "object") {
+            return;
+        }
+        var arr = [],
+            key = '',
+            value = '';
+        if(typeof rank !== "undefined") { //如果设置排序规则,则按照排序输出数组
+            for (var i = 0, rLen = rank.length; i < rLen; i++) {
+                key = rank[i];
+                value = obj[key] || false;
+                if(value) {
+                    arr.push(value);
+                };
+            };
+        } else {     //否则直接遍历输出
+            for(var p in obj) {
+                arr.push(obj[p]);
+            }
+        }
+        return arr;
+    },
+
+    /**
+     * 获取合作网站的链接信息
+     * @param{Array} url 合作网站链接数据数组 
+     */
+    getCoopSiteUrl : function(url) {
+        if(!url) {
+            return;
+        }
+        var site = this.coopSite,
+            urlData = [];
+        for (var i = 0; i < url.length; i++) {
+            urlData[i]={
+                name : site[url[i].src].name,
+                url : url[i].url,
+                logo : 'logo_' + url[i].src
+            };
+        };
+        return urlData;
+    },
+
+    /**
+     * 替换逗号为空格
+     * @param{Object} str 需要替换的
+     */
+    formatBlank : function (str) {
+        if(typeof str != "string") {
+            return;
+        }
+        var s = str.replace(/\,/gi , "&nbsp;&nbsp;&nbsp;");
+        return s;
+    },
+    /**
+     * 显示更多信息
+     */
+    _showMore : function() {
+        var limitedItems = document.getElementsByClassName("limited_size");
+        var item = {},
+            oHeight = 0,
+            sHeight = 0,
+            size = 0,
+            more = '<strong class="more" onclick = "Instances(\'' + this.guid  + '\').expendMore(this)">更多 <b></b></strong>',
+            less =  '<strong class="less" onclick = "Instances(\'' + this.guid  + '\').hiddenMore(this)">收起 <b></b></strong>',
+            hiddenWord = '<span class = "more_word">#word#</span>',
+            showWord = '<span class = "show_word">#word#</span>',
+            hw = sw = '';
+            text = '';
+        for (var i = limitedItems.length - 1; i >= 0; i--) {
+            item = limitedItems[i];
+            oHeight = item.offsetHeight;
+            sHeight = item.scrollHeight;
+            size = item.getAttribute('maxSize') || 0;
+            if(sHeight > oHeight) {
+                baidu.addClass(item, "limited_close");
+                item.setAttribute('data', text);
+                text = item.innerText;
+                hw = hiddenWord.replace('#word#', text);
+                sw = showWord.replace('#word#', text.slice(0,size))
+                item.innerHTML = sw + hw + more + less;
+            }
+        };
+    },
+
+
+    /**
+     * 展开更多信息
+     */
+    expendMore : function(e) {
+        var node = e;
+        parent = node.parentNode;
+        baidu.removeClass(parent, 'limited_close');
+        baidu.addClass(parent, 'limited_open');
+    },
+
+    /**
+     * 收起跟多信息
+     * @param  {HtmlElement} e 点击的收起元素
+     */
+    hiddenMore : function(e) {
+        var node = e;
+        parent = node.parentNode;
+        baidu.removeClass(parent, 'limited_open');
+        baidu.addClass(parent, 'limited_close');
+    },
+
+    //显示MapInfo
+    _showMapInfo : function() {
+        baidu.g('MapInfo').style.display = "block";
+        CtrMgr.addShow(["MapInfo"]);
+        CtrMgr.show();
+    }
+});
+</script>
+
