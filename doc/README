@@ -1,3 +1,7 @@
+说明：增加了html类型文件的压缩，包括对HTML内联css、javascript代码的压缩
+用法：用法与JavaScript and CSS Compressor一样，见--help
+anthor: jason.zhou
+email: jason.zhoujc@gmail.com
 ==============================================================================
 YUI Compressor
 ==============================================================================
