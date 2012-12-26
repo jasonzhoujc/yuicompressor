@@ -314,7 +314,6 @@ public class JavaScriptCompressor {
         Parser parser = new Parser(env, reporter);
         parser.parse(in, null, 1);
         String source = parser.getEncodedSource();
-
         int offset = 0;
         int length = source.length();
         ArrayList tokens = new ArrayList();
@@ -531,7 +530,6 @@ public class JavaScriptCompressor {
 
     public JavaScriptCompressor(Reader in, ErrorReporter reporter)
             throws IOException, EvaluatorException {
-
         this.logger = reporter;
         this.tokens = parse(in, reporter);
     }
@@ -1105,15 +1103,16 @@ public class JavaScriptCompressor {
         offset = 0;
         braceNesting = 0;
         scopes.clear();
-
+        StringBuffer result = new StringBuffer();
+        int length = tokens.size();
+        if (length == 0) { // 如果文件为空时，getToken(0)数组越界  by jason 20121226 TODO lastToken是否可以删除
+        	return result;
+        }
         String symbol;
         JavaScriptToken token;
         JavaScriptToken lastToken = getToken(0);
         ScriptOrFnScope currentScope;
         JavaScriptIdentifier identifier;
-
-        int length = tokens.size();
-        StringBuffer result = new StringBuffer();
 
         int linestartpos = 0;
 

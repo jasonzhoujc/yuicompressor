@@ -14,6 +14,7 @@ import org.mozilla.javascript.EvaluatorException;
  * 对html内嵌的Javascript/Css进行压缩
  * @author jason.zhou 
  * @createdate2012.3.5
+ * @updatedate2012.12.18 更新了获取css js的正则
  */
 public class HtmlCompressor {
 
@@ -103,15 +104,19 @@ public class HtmlCompressor {
 		StringBuffer htm = new StringBuffer();
 		Pattern jsp = Pattern.compile(SCRIPT_REG, Pattern.DOTALL|Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
 		Matcher jsm = jsp.matcher(html);
+		Pattern p = Pattern.compile(CLEAR_BLANK_REG, Pattern.DOTALL|Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
 		while (jsm.find()) {
 			String script = jsm.group(2);
-			StringReader scriptReader = new StringReader(script);
-			JavaScriptCompressor jsCompressor = new JavaScriptCompressor(
-					scriptReader, this.reporter);
-			String replaceSb = jsCompressor.getCompressedJavasCript(linebreak, munge,
-					verbose, preserveAllSemiColons, disableOptimizations);
-			replaceSb = replaceSb.replaceAll(ESCAPE_CHARACTER, ESCAPE_CHARACTER_REPLACEMENT);
-			replaceSb = replaceSb.replaceAll($_REG, $_REPLACEMENT);
+			String replaceSb = "";
+			script = p.matcher(script).replaceAll("");
+			if (!script.isEmpty()) {
+				StringReader scriptReader = new StringReader(script);
+				JavaScriptCompressor jsCompressor = new JavaScriptCompressor(scriptReader, this.reporter);
+				replaceSb = jsCompressor.getCompressedJavasCript(linebreak, munge,
+						verbose, preserveAllSemiColons, disableOptimizations);
+				replaceSb = replaceSb.replaceAll(ESCAPE_CHARACTER, ESCAPE_CHARACTER_REPLACEMENT);
+				replaceSb = replaceSb.replaceAll($_REG, $_REPLACEMENT);
+			}
 			jsm.appendReplacement(htm, jsm.group(1) + replaceSb + jsm.group(3));
 		}
 		jsm.appendTail(htm);
@@ -121,10 +126,12 @@ public class HtmlCompressor {
 	private StringBuffer srcsb = new StringBuffer();
 	// 处理JavaScript异常类
 	private ErrorReporter reporter = null;
-	// 获取css样式正则表达式
-	private static final String STYLE_REG = "(^<style[^<>]*?>)(.+?)(^</style>)";
+	// 首尾空白替换
+	private static final String CLEAR_BLANK_REG = "^\\s+";
+	// 获取样式正则表达式
+	private static final String STYLE_REG = "(^\\s*<style[^<>]*?>)(.*?)(</style>\\s*$)";
 	// 获取JavaScript样式正则表达式
-	private static final String SCRIPT_REG = "(^<script[^<>]*?>)(.+?)(^</script>)";
+	private static final String SCRIPT_REG = "(^\\s*<script[^<>]*?>)(.*?)(</script>\\s*$)";
 	// 更换$输出转义$,因为$会被当成正则全局对象
 	private static final String $_REPLACEMENT = "\\\\\\$";
 	// 获取$符的正则表达式
