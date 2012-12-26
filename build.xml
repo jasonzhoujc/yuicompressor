@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project name="YUI Compressor" default="build.jar" basedir=".">
 
     <target name="clean" depends="-load.properties">
@@ -20,7 +20,8 @@
                includes="**/*.java"
                deprecation="off"
                debug="on"
-	       target="1.5"
+               target="1.5"
+               encoding="utf-8"
                source="1.5">
             <classpath>
                 <pathelement location="${lib.dir}/jargs-1.0.jar"/>
